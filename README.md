@@ -132,7 +132,8 @@ diabetesAssistant/
 ├── mine/                       # 个人中心
 ├── userinfo/                   # 个人信息管理
 ├── videos/                     # 功能演示视频
-└── screenshots/                # 界面截图
+├── screenshots/                # 界面截图
+└── knowledge-base/             # 项目知识库（知识文档 / Dify 工作流 / 数据库）
 ```
 
 ---
@@ -252,6 +253,17 @@ window.APP_CONFIG = {
 | 生活建议 | `fetchLifeAdviceWorkflow` | 健康资讯标签/详情生成 |
 | 打卡分析 | `fetchAnalysisWorkflow` | AI 打卡数据分析 |
 | 聊天流 | `fetchChatflow` / `fetchDoctorChat` / `fetchAIChatflow` | 流式对话（AI 助手 / 医师咨询） |
+
+---
+
+## 📚 知识库
+
+`knowledge-base/` 目录存放项目运行所依赖的配套资料：
+
+- **知识文档**：1 型 / 2 型 / 妊娠型 / 特殊型糖尿病生活注意事项全攻略等 `.docx` 文档，作为 AI 助手（Dify 知识库）的参考素材
+- **Dify 工作流**：`健康资讯.yml`、`打卡分析.yml` 等工作流 DSL 导出文件
+- **数据库**：`sqlite.db`（SQLite 数据文件）、`db.txt`（建表结构）、`数据表字典文档.html`（字段说明）
+- **部署手册**：`dify本地服务端操作手册.docx`
 
 ---
 

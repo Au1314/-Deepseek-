@@ -1,0 +1,545 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: 健康资讯
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/deepseek:0.0.5@fd6efd37c2a931911de8ab9ca3ba2da303bef146d45ee87ad896b04b36d09403
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai_api_compatible:0.0.12@721cf03c692aad2ab58c7c138c66be7c59819bd3d2a073e1c1b3c9ff83c0c0e8
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: if-else
+      id: 1743142026032-source-1743142097428-target
+      source: '1743142026032'
+      sourceHandle: source
+      target: '1743142097428'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1743142097428-true-1743142242508-target
+      source: '1743142097428'
+      sourceHandle: 'true'
+      target: '1743142242508'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: knowledge-retrieval
+      id: 1743142097428-false-1743142955445-target
+      source: '1743142097428'
+      sourceHandle: 'false'
+      target: '1743142955445'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1743142955445-source-1743142972625-target
+      source: '1743142955445'
+      sourceHandle: source
+      target: '1743142972625'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1743142242508-source-1743143711854-target
+      source: '1743142242508'
+      sourceHandle: source
+      target: '1743143711854'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1743142972625-source-1743143763113-target
+      source: '1743142972625'
+      sourceHandle: source
+      target: '1743143763113'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1743143711854-source-1743144859444-target
+      source: '1743143711854'
+      sourceHandle: source
+      target: '1743144859444'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1743143763113-source-1743144859444-target
+      source: '1743143763113'
+      sourceHandle: source
+      target: '1743144859444'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: end
+      id: 1743144859444-source-1743144972887-target
+      source: '1743144859444'
+      sourceHandle: source
+      target: '1743144972887'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: 类型（标签、详情）
+          max_length: 48
+          options:
+          - 标签
+          - 详情
+          required: true
+          type: select
+          variable: type
+        - label: 标题
+          max_length: 48
+          options: []
+          required: false
+          type: text-input
+          variable: title
+        - label: 用户信息
+          max_length: 3000
+          options: []
+          required: true
+          type: paragraph
+          variable: userInfo
+      height: 140
+      id: '1743142026032'
+      position:
+        x: 201.39472779110628
+        y: 288.59753955386446
+      positionAbsolute:
+        x: 201.39472779110628
+        y: 288.59753955386446
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: 9b6382ae-b2d5-449a-a199-b92a2b7d8543
+            value: 标签
+            varType: string
+            variable_selector:
+            - '1743142026032'
+            - type
+          id: 'true'
+          logical_operator: and
+        desc: ''
+        selected: false
+        title: 条件分支
+        type: if-else
+      height: 124
+      id: '1743142097428'
+      position:
+        x: 557.1458701850183
+        y: 282
+      positionAbsolute:
+        x: 557.1458701850183
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: ep-20241223162900-6p5xz
+          provider: langgenius/openai_api_compatible/openai_api_compatible
+        prompt_template:
+        - id: a5b1e07b-d8b5-4bb1-b60b-281cff6560fe
+          role: system
+          text: '你是一个糖尿病方面的专家，可以根据用户信息生成健康资讯标签，包含三条饮食标签、三条运动标签、两条日常习惯标签和两条糖尿病科普标签，其中日常习惯标签与糖尿病科普标签包含标题和内容，其他标签仅包含标题，输出格式为JSON格式，禁止输出除JSON数据外的其他内容。
+
+            例如：
+
+            {
+
+                "eat":["低糖饮食","定时定量","营养均衡"],
+
+                "sport":["每日步行","有氧运动","运动强度"],
+
+                "daily":[
+
+                    {
+
+                        "title":"规律作息",
+
+                        "content":"每天保存7~8小时充足睡眠"
+
+                    },
+
+                    {
+
+                        "title":"戒烟戒酒",
+
+                        "content":"避免饮酒吸烟等不良习惯"
+
+                    }
+
+                ],
+
+                "popularization":[
+
+                    {
+
+                        "title": "基础知识",
+
+                        "content": "了解糖尿病的成因和类型"
+
+                    },
+
+                    {
+
+                        "title": "并发症预防",
+
+                        "content": "预防和控制相关并发症"
+
+                    }
+
+                ]
+
+            }
+
+            '
+        - id: 10219b7b-c5b6-43c5-bf51-c235596bc403
+          role: user
+          text: 用户信息：{{#1743142026032.userInfo#}}
+        selected: false
+        title: （小模型）生活建议标签
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1743142242508'
+      position:
+        x: 893.4826703486476
+        y: 119.75878782400284
+      positionAbsolute:
+        x: 893.4826703486476
+        y: 119.75878782400284
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        dataset_ids:
+        - 13312282-7f7a-4905-895d-ca3f940a2353
+        desc: ''
+        multiple_retrieval_config:
+          reranking_enable: true
+          reranking_mode: weighted_score
+          top_k: 4
+          weights:
+            keyword_setting:
+              keyword_weight: 0
+            vector_setting:
+              embedding_model_name: ep-20250219145849-wnxzt
+              embedding_provider_name: langgenius/openai_api_compatible/openai_api_compatible
+              vector_weight: 1
+        query_variable_selector:
+        - '1743142026032'
+        - title
+        retrieval_mode: multiple
+        selected: false
+        title: 知识检索
+        type: knowledge-retrieval
+      height: 52
+      id: '1743142955445'
+      position:
+        x: 777.3855886398096
+        y: 611.8108969641871
+      positionAbsolute:
+        x: 777.3855886398096
+        y: 611.8108969641871
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1743142955445'
+          - result
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-reasoner
+          provider: langgenius/deepseek/deepseek
+        prompt_template:
+        - id: 405df2d3-62e7-457c-878a-914e6201f130
+          role: system
+          text: '你是一个糖尿病生活建议方面的专家，可以根据用户信息和建议标题生成健康资讯内容。
+
+            内容包括文章标题、文章标签列表和文章内容，其中文章标签列表中必定包含建议标题信息，数量为2~4个。文章内容在200字以上。编写文章时可参考{{#context#}}，输出格式严格按照JSON字符串格式，禁止输出MarkDown格式内容，禁止输出其他非JSON格式的信息。
+
+            示例：
+
+            {
+
+                "title":"每天 8 杯水的科学饮水方案，让你轻松保持健康",
+
+                "tags":["健康建议","饮食建议","科学饮水"],
+
+                "content":"科学研究表明，适量的水分摄入对人体健康至关重要。xxxxxx"
+
+            }'
+        - id: 0ebf7204-1e50-4d2a-a8fa-5721f5d29011
+          role: user
+          text: '建议标题：{{#1743142026032.title#}}
+
+            用户信息：{{#1743142026032.userInfo#}}'
+        selected: false
+        title: 生成生活建议
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1743142972625'
+      position:
+        x: 1031.2442880304395
+        y: 634.2425314473262
+      positionAbsolute:
+        x: 1031.2442880304395
+        y: 634.2425314473262
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "\nfunction main({text}) {\n    return {\n        result: JSON.parse(text)\n\
+          \    }\n}\n"
+        code_language: javascript
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: object
+        selected: false
+        title: 转JSON
+        type: code
+        variables:
+        - value_selector:
+          - '1743142242508'
+          - text
+          variable: text
+      height: 52
+      id: '1743143711854'
+      position:
+        x: 1226.8923158664068
+        y: 119.75878782400284
+      positionAbsolute:
+        x: 1226.8923158664068
+        y: 119.75878782400284
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "\n\nfunction main({text}) {\n    let result = {}\n    const index =\
+          \ text.indexOf('</details>');\n    if (index !== -1) {\n        const jsonStr\
+          \ = text.slice(index + '</details>'.length).trim();\n        result = JSON.parse(jsonStr);\n\
+          \    }\n    return {\n        result\n    };\n}"
+        code_language: javascript
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: object
+        selected: false
+        title: 解析输出并转JSON
+        type: code
+        variables:
+        - value_selector:
+          - '1743142972625'
+          - text
+          variable: text
+      height: 52
+      id: '1743143763113'
+      position:
+        x: 1336.5637959412124
+        y: 634.2425314473262
+      positionAbsolute:
+        x: 1336.5637959412124
+        y: 634.2425314473262
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "\nfunction main({obj1,obj2}) {\n    return {\n        result: {\n \
+          \           tags:obj1,\n            content:obj2\n        }\n    }\n}\n"
+        code_language: javascript
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: object
+        selected: false
+        title: 合并
+        type: code
+        variables:
+        - value_selector:
+          - '1743143711854'
+          - result
+          variable: obj1
+        - value_selector:
+          - '1743143763113'
+          - result
+          variable: obj2
+      height: 52
+      id: '1743144859444'
+      position:
+        x: 1597.8263622742454
+        y: 477.5328653210954
+      positionAbsolute:
+        x: 1597.8263622742454
+        y: 477.5328653210954
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1743144859444'
+          - result
+          variable: body
+        selected: true
+        title: 结束
+        type: end
+      height: 88
+      id: '1743144972887'
+      position:
+        x: 1925.5775046681579
+        y: 477.5328653210954
+      positionAbsolute:
+        x: 1925.5775046681579
+        y: 477.5328653210954
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -538.0578407708974
+      y: 9.754875263073927
+      zoom: 0.88406369890789

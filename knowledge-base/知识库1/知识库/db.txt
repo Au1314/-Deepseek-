@@ -1,0 +1,85 @@
+-- 创建用户表
+CREATE TABLE IF NOT EXISTS users (
+ user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+ username TEXT NOT NULL UNIQUE,
+ password TEXT NOT NULL,
+ avatar_url TEXT
+);
+-- 创建医生资讯表
+CREATE TABLE IF NOT EXISTS doctor_information (
+ info_id INTEGER PRIMARY KEY AUTOINCREMENT,
+ doctor_name TEXT NOT NULL,
+ department TEXT,
+ title TEXT,
+ introduction TEXT,
+ image_url TEXT,
+chat_token TEXT
+);
+-- 创建文章科普表
+CREATE TABLE IF NOT EXISTS articles (
+ article_id INTEGER PRIMARY KEY AUTOINCREMENT,
+ title TEXT NOT NULL,
+ cover_url TEXT,
+ author TEXT NOT NULL,
+ publish_time TEXT NOT NULL,
+ content TEXT NOT NULL,
+ category TEXT,
+ views INTEGER DEFAULT 0
+);
+-- 创建糖尿病种类表
+CREATE TABLE IF NOT EXISTS diabetes_types (
+ type_id INTEGER PRIMARY KEY AUTOINCREMENT,
+ type_name TEXT NOT NULL,
+ img TEXT,
+ pathogenesis TEXT,
+ manifestation TEXT,
+ treatment
+);
+-- 创建文章收藏表
+CREATE TABLE IF NOT EXISTS article_collections (
+ collection_id INTEGER PRIMARY KEY AUTOINCREMENT,
+ user_id INTEGER,
+ article_id INTEGER,
+ FOREIGN KEY (user_id) REFERENCES users(user_id),
+ FOREIGN KEY (article_id) REFERENCES articles(article_id)
+);
+-- 创建用户风险信息表
+CREATE TABLE IF NOT EXISTS user_risk_info (
+    userId INTEGER PRIMARY KEY AUTOINCREMENT,
+    age INTEGER,
+    sex TEXT,
+    height REAL,
+    weight REAL,
+    familyHistory TEXT,
+    waistline REAL,
+    systolicPressure REAL,
+    isPregnancy TEXT,
+    message TEXT,
+    disease TEXT
+);  
+-- 创建生活方案表
+CREATE TABLE IF NOT EXISTS life_plans (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    type TEXT CHECK (type IN ('饮食', '运动', '其他')) NOT NULL,
+    `order` INTEGER NOT NULL,
+    time TEXT NOT NULL,
+    title TEXT NOT NULL,
+    content TEXT NOT NULL
+);
+-- 创建生活建议表
+CREATE TABLE life_advice (
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	user_id INTEGER NOT NULL,
+	title TEXT(255),
+	tags TEXT(255),
+	content TEXT(65535)
+);
+-- 打卡记录表
+CREATE TABLE punch_in (
+    user_id INTEGER NOT NULL,
+    punch_time DATETIME NOT NULL,
+    punch_type TEXT NOT NULL,
+    completion_status TEXT NOT NULL,
+    message TEXT
+);

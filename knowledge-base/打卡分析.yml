@@ -1,0 +1,473 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: 打卡分析
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/deepseek:0.0.5@fd6efd37c2a931911de8ab9ca3ba2da303bef146d45ee87ad896b04b36d09403
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables:
+  - description: ''
+    id: 253fd909-8170-4914-8b45-c68fd98ea207
+    name: localIp
+    selector:
+    - env
+    - localIp
+    value: 192.168.7.112
+    value_type: string
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 17435719609180-source-1743572232230-target
+      source: '17435719609180'
+      sourceHandle: source
+      target: '1743572232230'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 17435725052630-source-1743572232230-target
+      source: '17435725052630'
+      sourceHandle: source
+      target: '1743572232230'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1743572232230-source-1743650981517-target
+      source: '1743572232230'
+      sourceHandle: source
+      target: '1743650981517'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: end
+      id: 1743650981517-source-1743562019675-target
+      source: '1743650981517'
+      sourceHandle: source
+      target: '1743562019675'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: tool
+      id: 1743408964685-source-1745294306205-target
+      source: '1743408964685'
+      sourceHandle: source
+      target: '1745294306205'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: code
+      id: 1745294306205-source-17435725052630-target
+      source: '1745294306205'
+      sourceHandle: source
+      target: '17435725052630'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: tool
+      id: 1743408964685-source-1745298472864-target
+      source: '1743408964685'
+      sourceHandle: source
+      target: '1745298472864'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: code
+      id: 1745298472864-source-17435719609180-target
+      source: '1745298472864'
+      sourceHandle: source
+      target: '17435719609180'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: userId
+          max_length: 48
+          options: []
+          required: true
+          type: number
+          variable: userId
+      height: 88
+      id: '1743408964685'
+      position:
+        x: 30
+        y: 244
+      positionAbsolute:
+        x: 30
+        y: 244
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1743650981517'
+          - result
+          variable: body
+        selected: false
+        title: 结束
+        type: end
+      height: 88
+      id: '1743562019675'
+      position:
+        x: 1540
+        y: 244
+      positionAbsolute:
+        x: 1540
+        y: 244
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "\n\nfunction main({input}) {\n    let result = JSON.parse(input)\n\
+          \    return {result: result.result};\n}"
+        code_language: javascript
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: array[object]
+        selected: false
+        title: 打卡记录格式化
+        type: code
+        variables:
+        - value_selector:
+          - '1745298472864'
+          - text
+          variable: input
+      height: 52
+      id: '17435719609180'
+      position:
+        x: 634
+        y: 244
+      positionAbsolute:
+        x: 634
+        y: 244
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-chat
+          provider: langgenius/deepseek/deepseek
+        prompt_template:
+        - id: 0a9effe3-34a1-4df0-836a-cb7a1ede782b
+          role: system
+          text: "你是一个糖尿病方案的健康生活助理，可以根据用户的生活方案与生活打卡记录来判断用户最近的生活方案执行情况，打卡记录分为饮食打卡和运动打卡，每种打卡每天打卡一次，共分析一周内的打卡数据，根据生活建议与打卡记录情况进行分析。如果打卡次数较少（不足30%）则需要提醒用户记得每天打卡。\n\
+            输出格式为JSON格式，包括打卡完成状态，评价和建议，禁止输出除JSON格式数据外的其他内容。\n输出示例：\n```json\n{ \n\"\
+            completionStatus\":\"通过分析您上一周的打卡情况，xxxxxx\",\n\"evaluate\":\"xxxxxx\"\
+            ,\n\"suggestion\":\"xxxxxx\",\n\"process\":\"40%\"\n}\n```"
+        - id: 8d04df63-199e-4458-90af-e7a75042bdaf
+          role: user
+          text: '生活计划：{{#1745294306205.text#}}
+
+            前七天的打卡记录：{{#1745298472864.text#}}'
+        selected: false
+        title: 打卡记录分析
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 88
+      id: '1743572232230'
+      position:
+        x: 936
+        y: 244
+      positionAbsolute:
+        x: 936
+        y: 244
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "\n\nfunction main({input}) {\n    let result = JSON.parse(input)\n\
+          \    return {result: result.result};\n}"
+        code_language: javascript
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: array[object]
+        selected: false
+        title: 方案数据格式化
+        type: code
+        variables:
+        - value_selector:
+          - '1745294306205'
+          - text
+          variable: input
+      height: 52
+      id: '17435725052630'
+      position:
+        x: 634
+        y: 336
+      positionAbsolute:
+        x: 634
+        y: 336
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "\nfunction main({str}) {\n    const startIndex = str.indexOf('```json');\n\
+          \    const endIndex = str.indexOf('```', startIndex + 7);\n\n    if (startIndex\
+          \ === -1 || endIndex === -1) {\n        return null;\n    }\n\n    const\
+          \ jsonStr = str.slice(startIndex + 7, endIndex).trim();\n    return {\n\
+          \        result: JSON.parse(jsonStr)\n    }\n}\n"
+        code_language: javascript
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: object
+        selected: false
+        title: 抽取分析结果
+        type: code
+        variables:
+        - value_selector:
+          - '1743572232230'
+          - text
+          variable: str
+      height: 52
+      id: '1743650981517'
+      position:
+        x: 1238
+        y: 244
+      positionAbsolute:
+        x: 1238
+        y: 244
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: sql
+            ja_JP: sql
+            pt_BR: sql
+            zh_Hans: sql
+          llm_description: ''
+          max: null
+          min: null
+          name: sql
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        params:
+          sql: ''
+        provider_id: ae4480f2-9893-4787-9667-6cc3e305c473
+        provider_name: database_workflow
+        provider_type: workflow
+        selected: false
+        title: 生活方案
+        tool_configurations: {}
+        tool_label: database_workflow
+        tool_name: database_workflow
+        tool_parameters:
+          sql:
+            type: mixed
+            value: SELECT * FROM life_plans WHERE user_id = {{#1743408964685.userId#}}
+        type: tool
+      height: 52
+      id: '1745294306205'
+      position:
+        x: 332
+        y: 336
+      positionAbsolute:
+        x: 332
+        y: 336
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: sql
+            ja_JP: sql
+            pt_BR: sql
+            zh_Hans: sql
+          llm_description: ''
+          max: null
+          min: null
+          name: sql
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        params:
+          sql: ''
+        provider_id: ae4480f2-9893-4787-9667-6cc3e305c473
+        provider_name: database_workflow
+        provider_type: workflow
+        selected: false
+        title: 打卡记录
+        tool_configurations: {}
+        tool_label: database_workflow
+        tool_name: database_workflow
+        tool_parameters:
+          sql:
+            type: mixed
+            value: SELECT * FROM punch_in WHERE user_id = {{#1743408964685.userId#}}
+              AND punch_time >= DATE('now', '-7 days') AND punch_time <= DATE('now');
+        type: tool
+      height: 52
+      id: '1745298472864'
+      position:
+        x: 332
+        y: 244
+      positionAbsolute:
+        x: 332
+        y: 244
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -1753.0709680621594
+      y: 47.01990439379779
+      zoom: 1.5120836652993133
