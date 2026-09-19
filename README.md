@@ -25,6 +25,74 @@
 
 ---
 
+## 🖼 界面预览
+
+| 登录 | 注册 |
+| --- | --- |
+| ![登录](screenshots/登录.png) | ![注册](screenshots/注册.png) |
+
+| 首页 | 糖尿病类型 |
+| --- | --- |
+| ![首页](screenshots/首页-1.png) | ![糖尿病类型](screenshots/糖尿病类型（首页）.png) |
+
+| 方案定制 | 生活方案 |
+| --- | --- |
+| ![方案定制](screenshots/方案定制页面.png) | ![生活方案](screenshots/生活方案页面.png) |
+
+| 打卡记录 | 打卡分析 |
+| --- | --- |
+| ![打卡记录](screenshots/打卡记录页面.png) | ![打卡分析](screenshots/打卡分析页面.png) |
+
+| 健康资讯 | 资讯详情 |
+| --- | --- |
+| ![健康资讯](screenshots/健康资讯页面.png) | ![资讯详情](screenshots/健康咨询详情展示.png) |
+
+| AI 助手 | AI 聊天 |
+| --- | --- |
+| ![AI 助手](screenshots/AI助手页面.png) | ![AI 聊天](screenshots/ai助手聊天页面-1.png) |
+
+| 医师咨询 | 个人中心 |
+| --- | --- |
+| ![医师咨询](screenshots/医师咨询-1.png) | ![个人中心](screenshots/个人中心页面.png) |
+
+<details>
+<summary>📷 查看全部截图</summary>
+
+- [糖尿病科普详情（首页）](screenshots/糖尿病科普详情（首页）.png)
+- [首页-2](screenshots/首页-2.png)
+- [AI 助手聊天-2](screenshots/ai助手聊天页面-2.png)
+- [医师咨询-2](screenshots/医师咨询-2.png)
+- [智能管理平台-1](screenshots/智能管理页面-1.png)
+- [智能管理平台-2](screenshots/智能管理页面-2.png)
+- [智能管理平台-3](screenshots/智能管理页面-3.png)
+- [我的方案](screenshots/我的方案页面.png)
+- [我的咨询](screenshots/我的咨询页面.png)
+- [个人信息](screenshots/个人信息界面.png)
+- [修改个人信息-1](screenshots/修改个人信息页面-1.png)
+- [修改个人信息-2](screenshots/修改个人信息页面-2.png)
+
+</details>
+
+---
+
+## 🎬 演示视频
+
+| 功能 | 视频 |
+| --- | --- |
+| 登录 | [登录.mp4](videos/登录.mp4) |
+| 注册 | [注册.mp4](videos/注册.mp4) |
+| 首页功能实现 | [首页功能实现.mp4](videos/首页功能实现.mp4) |
+| 方案定制 / 打卡 | [打卡记录与分析.mp4](videos/打卡记录与分析.mp4) |
+| 健康资讯 | [健康资讯生成与收藏.mp4](videos/健康资讯生成与收藏.mp4) |
+| AI 智能助手 | [AI智能助手.mp4](videos/AI智能助手.mp4) |
+| AI 智能管理平台 | [AI智能管理平台.mp4](videos/AI智能管理平台.mp4) |
+| 医师咨询 | [医师咨询.mp4](videos/医师咨询.mp4) |
+| 个人中心 | [个人中心功能实现.mp4](videos/个人中心功能实现.mp4) |
+
+> 点击视频文件名即可在 GitHub 页面内预览播放。
+
+---
+
 ## 🛠 技术栈
 
 | 层面 | 技术 |
@@ -62,7 +130,9 @@ diabetesAssistant/
 ├── informationGathering/       # 风险信息采集
 ├── riskOutcome/                # 风险评估结果
 ├── mine/                       # 个人中心
-└── userinfo/                   # 个人信息管理
+├── userinfo/                   # 个人信息管理
+├── videos/                     # 功能演示视频
+└── screenshots/                # 界面截图
 ```
 
 ---
