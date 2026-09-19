@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>糖尿病管理助手</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128150;</text></svg>">
+    <script src="/js/tailwindcss.js"></script>
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+
+<body>
+    <!-- iframe 内容容器 -->
+    <div id="iframe-container">
+        <iframe src="/main/main.html" title="主内容"></iframe>
+    </div>
+
+    <!-- 底部导航栏（5个Tab） -->
+    <div class="tab-bar">
+        <div class="flex justify-around h-full items-center">
+            <a href="#" class="flex flex-col items-center text-primary active" data-target="/main/main.html">
+                <i class="fas fa-home fa-icon mb-1"></i>
+                <span class="text-xs">首页</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-500" data-target="/scheme/scheme.html">
+                <i class="fas fa-clipboard-list fa-icon mb-1"></i>
+                <span class="text-xs">方案定制</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-500" data-target="/lifeadvice/lifeAdvice.html">
+                <i class="fas fa-newspaper fa-icon mb-1"></i>
+                <span class="text-xs">健康资讯</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-500" data-target="/ai/aiStart.html">
+                <i class="fas fa-robot fa-icon mb-1"></i>
+                <span class="text-xs">AI助手</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-500" data-target="/mine/mine.html">
+                <i class="fas fa-user fa-icon mb-1"></i>
+                <span class="text-xs">个人中心</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="/js/notification.js"></script>
+    <script src="/js/index.js"></script>
+</body>
+
+</html>

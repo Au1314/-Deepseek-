@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>打卡分析</title>
+  <script src="/js/tailwindcss.js"></script>
+  <link rel="stylesheet" href="/css/all.min.css">
+  <link rel="stylesheet" href="/css/loading.css">
+  <link rel="stylesheet" href="AIAnalysis.css">
+</head>
+<body class="bg-[#F8FAFC] min-h-screen">
+  <!-- 导航栏 -->
+  <div class="fixed top-0 left-0 right-0 bg-white shadow-sm z-10">
+    <div class="flex items-center justify-between px-4 py-3 max-w-3xl mx-auto">
+      <button onclick="window.history.back()" class="w-10 h-10 flex items-center justify-center hover:bg-gray-100 rounded-xl transition-colors">
+        <i class="fas fa-arrow-left text-gray-600"></i>
+      </button>
+      <h1 class="text-lg font-bold">打卡分析</h1>
+      <span class="w-10"></span>
+    </div>
+  </div>
+
+  <!-- 主内容 -->
+  <div class="pt-20 px-4 pb-8 max-w-3xl mx-auto w-full space-y-6">
+
+    <!-- 卡片1：计划完成状态 -->
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="title">计划完成状态</h2>
+      <div class="flex flex-col items-center py-6">
+        <!-- SVG 环形进度 -->
+        <div class="relative w-24 h-24 mb-4">
+          <svg class="w-full h-full" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#e5e7eb" stroke-width="8" />
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#3B82F6" stroke-width="8"
+              stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283"
+              class="progress-circle transform -rotate-90 origin-center" />
+          </svg>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <span class="text-xl font-bold progress-percent">0%</span>
+          </div>
+        </div>
+        <p class="message text-center" id="completionStatus">加载中...</p>
+      </div>
+    </div>
+
+    <!-- 卡片2：生活评价 -->
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="title">生活评价</h2>
+      <p class="message mt-4" id="evaluate">加载中...</p>
+    </div>
+
+    <!-- 卡片3：改进建议 -->
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="title">改进建议</h2>
+      <p class="message mt-4" id="suggestion">加载中...</p>
+    </div>
+
+  </div>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/user.js"></script>
+  <script src="/js/loading.js"></script>
+  <script src="AIAnalysis.js"></script>
+</body>
+</html>

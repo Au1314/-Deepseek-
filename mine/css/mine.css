@@ -1,0 +1,4 @@
+.safe-area {
+    padding-top: 64px;     /* 避开固定顶部导航栏 */
+    padding-bottom: 80px;  /* 避开固定底部Tab栏 */
+}

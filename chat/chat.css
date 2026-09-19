@@ -1,0 +1,101 @@
+/* ===== 医师头像（54px 大卡片用） ===== */
+.doctor-avatar {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    border: 2px solid #304FFF;
+    object-fit: cover;
+}
+
+/* ===== 消息气泡中的头像（40px） ===== */
+.message-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #304FFF;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+/* ===== 在线状态圆点 ===== */
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #10B981;
+}
+
+/* ===== 聊天气泡通用限制 ===== */
+.chat-bubble {
+    max-width: 280px;
+}
+
+/* ===== 医生消息气泡 ===== */
+.doctor-bubble {
+    background: #ffffff;
+    border-radius: 0 12px 12px 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    padding: 10px 14px;
+    max-width: 280px;
+}
+
+/* ===== 用户消息气泡 ===== */
+.user-bubble {
+    background: #304FFF;
+    border-radius: 12px 0 12px 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 10px 14px;
+    max-width: 280px;
+}
+
+/* ===== 发送按钮 ===== */
+.send-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.send-btn:active {
+    opacity: 0.7;
+}
+
+/* ===== 加载提示 ===== */
+#loadingIndicator {
+    text-align: center;
+    padding: 8px 0;
+}
+
+/* ===== 自定义主色（Tailwind 的 bg-primary） ===== */
+:root {
+    --primary: #304FFF;
+}
+
+.bg-primary {
+    background-color: var(--primary);
+}
+
+.text-primary {
+    color: var(--primary);
+}
+
+/* ===== 消息容器中的消息间距 ===== */
+#messages-container > div {
+    margin-bottom: 16px;
+}
+
+/* ===== 消息气泡文本 white-space: pre-line（需求：保证接口返回文本换行空格正常渲染） ===== */
+#messages-container p {
+    white-space: pre-line;
+}
+
+/* ===== 医生消息气泡文本 ===== */
+.doctor-bubble p,
+.user-bubble p {
+    white-space: pre-line;
+    word-break: break-word;
+}

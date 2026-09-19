@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI助手</title>
+    <script src="/js/tailwindcss.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#304FFF',
+                        secondary: '#10B981'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '2px',
+                        DEFAULT: '4px',
+                        'md': '8px',
+                        'lg': '12px',
+                        'xl': '16px',
+                        '2xl': '20px',
+                        '3xl': '24px',
+                        'full': '9999px',
+                        'button': '4px'
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="/js/config.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="js/userAI.js"></script>
+    <script src="/js/user.js"></script>
+    <script src="/js/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="css/userAI.css">
+</head>
+
+<body class="bg-gray-50 font-sans">
+    <div class="flex flex-col h-screen">
+        <!-- 顶部导航栏 -->
+        <header class="fixed top-0 left-0 right-0 z-10 shadow-sm bg-white">
+            <div class="flex items-center justify-between px-4 py-3">
+                <button onclick="window.history.back()" class="text-gray-600">
+                    <i class="fas fa-chevron-left text-lg"></i>
+                </button>
+                <h1 class="text-lg font-medium">AI助手</h1>
+                <button id="clearChatBtn" class="text-gray-600">
+                    <i class="fa-solid fa-trash text-lg"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- AI展示区 -->
+        <div class="pt-16 pb-4 bg-white shadow-md rounded-b-lg mx-4">
+            <div class="flex items-center px-4">
+                <div class="relative">
+                    <img src="/img/aichat_logo.png" class="ai-avatar object-cover">
+                    <div class="absolute bottom-0 right-0 bg-white p-0.5 rounded-full">
+                        <div class="status-dot bg-green-500"></div>
+                    </div>
+                </div>
+                <div class="ml-3">
+                    <div class="flex items-center">
+                        <h2 class="font-bold text-gray-900">AI助手</h2>
+                        <span class="ml-2 text-xs text-gray-500">在线</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 聊天内容区域 -->
+        <div id="messages-container" class="flex-1 overflow-y-auto px-4 py-2 space-y-4">
+        </div>
+
+        <!-- 底部快捷按钮和输入区域 -->
+        <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3" id="bottomArea">
+            <!-- 快捷按钮区域 - 整体可折叠 -->
+            <div id="quickTagsWrapper" class="relative">
+                <!-- 收缩/展开按钮 -->
+                <button id="toggleQuickTagsBtn" class="toggle-tags-btn" title="收起快捷功能" onclick="toggleQuickTags()">
+                    <i class="fas fa-chevron-down" id="toggleIcon"></i>
+                </button>
+                <!-- 快捷标签 -->
+                <div id="quickTagsContainer" class="scroll-tags-wrapper mb-3">
+                    <button onclick="sendQuickMessage('糖尿病的早期症状有哪些？')" class="scroll-tag">
+                        <i class="fas fa-heart-pulse"></i>
+                        <span>早期症状</span>
+                    </button>
+                    <button onclick="sendQuickMessage('糖尿病患者应该如何饮食？')" class="scroll-tag">
+                        <i class="fas fa-utensils"></i>
+                        <span>饮食建议</span>
+                    </button>
+                    <button onclick="sendQuickMessage('适合糖尿病患者的运动有哪些？')" class="scroll-tag">
+                        <i class="fas fa-running"></i>
+                        <span>运动指导</span>
+                    </button>
+                    <button onclick="sendQuickMessage('血糖测量的注意事项')" class="scroll-tag">
+                        <i class="fas fa-stethoscope"></i>
+                        <span>血糖测量注意</span>
+                    </button>
+                    <button onclick="sendQuickMessage('请帮我评估糖尿病患病风险')" class="scroll-tag">
+                        <i class="fas fa-chart-line"></i>
+                        <span>患病风险评估</span>
+                    </button>
+                    <button onclick="sendQuickMessage('如何记录健康数据')" class="scroll-tag">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>健康数据记录</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 输入框 -->
+            <div class="flex items-center input-container">
+                <div class="flex-1 bg-gray-100 rounded-full px-4 py-2">
+                    <input type="text" placeholder="输入血糖、控糖相关问题" class="w-full bg-transparent outline-none text-sm"
+                        id="messageInput">
+                </div>
+                <button class="ml-2 bg-primary text-white rounded-full send-btn" id="sendBtn" disabled>
+                    <i class="fas fa-paper-plane text-white text-sm"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

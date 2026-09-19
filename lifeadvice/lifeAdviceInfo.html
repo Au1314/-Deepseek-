@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>健康资讯详情</title>
+    <script src="/js/tailwindcss.js"></script>
+    <script src="/js/config.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/loading.js"></script>
+    <script src="/js/user.js"></script>
+    <script src="/js/showAlert.js"></script>
+    <script src="lifeAdviceInfo.js"></script>
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/loading.css">
+    <link href="/css/loading.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-50">
+    <div class="w-full max-w-md min-h-screen mx-auto bg-white relative">
+        <nav class="fixed top-0 w-full max-w-md h-14 bg-white border-b flex items-center justify-between px-4 z-50">
+            <button class="w-[40px] h-[40px] flex items-center justify-center" onclick="window.history.back()">
+                <i class="fas fa-arrow-left text-gray-700"></i>
+            </button>
+            <h1 class="text-lg font-medium">健康资讯</h1>
+            <button class="w-[40px] h-[40px] flex items-center justify-center">
+            </button>
+        </nav>
+        <main class="pt-16 px-4 pb-6">
+            <div class="mb-6 px-2">
+                <h2 id="title" class="text-lg md:text-xl font-medium mb-2"></h2>
+                <div class="flex items-center text-sm text-gray-500 mb-3">
+                </div>
+                <div id="tagList" class="flex gap-2 mb-4 flex-wrap">
+                </div>
+            </div>
+
+            <article class="text-gray-700 text-sm md:text-base leading-relaxed mb-8 px-2">
+            </article>
+            <div id="collect" style="display: none;" class="px-2">
+                <p class="text-sm text-gray-500 mb-3">如果感觉本健康资讯对您有帮助，请点击收藏按钮</p>
+                <div class="flex items-center justify-between mb-8 px-4">
+                    <div class="flex items-center gap-4 md:gap-6" onclick="collect()">
+                        <button class="flex items-center gap-2">
+                            <i class="far fa-bookmark text-xl text-gray-600"></i>
+                            <span class="text-gray-600">收藏</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div
+        class="fixed bottom-0 left-0 right-0 bg-yellow-100 p-3 md:p-4 text-center text-sm md:text-base text-yellow-800 font-medium">
+        本资讯由AI生成，请谨慎鉴别
+    </div>
+</body>
+
+</html>

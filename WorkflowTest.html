@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflow 接口测试</title>
+    <script src="js/sweetalert2.all.min.js"></script>
+    <script src="js/tailwindcss.js"></script>
+</head>
+
+<body class="p-8 bg-gray-100">
+    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
+        <h1 class="text-2xl font-bold mb-6 text-gray-800">Workflow 接口测试</h1>
+
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">API 密钥</label>
+                <input type="password" id="apiKey"
+                    class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Intention</label>
+                <input type="text" id="intention"
+                    class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <button onclick="submitRequest()"
+                class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+                发送请求
+            </button>
+        </div>
+
+        <div class="mt-8">
+            <h2 class="text-lg font-semibold mb-4 text-gray-800">响应结果</h2>
+            <pre id="responseOutput" class="bg-gray-50 p-4 rounded-md border overflow-x-auto"></pre>
+        </div>
+    </div>
+
+    <script>
+        async function submitRequest() {
+            const apiKey = document.getElementById('apiKey').value;
+            const intentionInput = document.getElementById('intention');
+            const output = document.getElementById('responseOutput');
+            const submitBtn = document.querySelector('button');
+
+            // 禁用按钮防止重复提交
+            submitBtn.disabled = true;
+            submitBtn.textContent = '请求中...';
+
+            if (!apiKey || !intentionInput.value) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '发送请求';
+                Swal.fire('错误', '请填写所有必填字段', 'error');
+                return;
+            }
+
+            try {
+                output.textContent = '';
+
+                const response = await fetch('http://YOUR_DIFY_HOST/v1/workflows/run', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        inputs: {
+                            intention: intentionInput.value
+                        },
+                        response_mode: "blocking",
+                        user: "abc-123"
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP 错误! 状态码: ${response.status}`);
+                }
+                const result = await response.text();
+                const responseData = JSON.parse(result);
+                let text=""
+                    // 添加是否是string的判断
+                    if (typeof responseData.data.outputs.body === 'string') {
+                        text= JSON.parse(responseData.data.outputs.body);
+                    }else{
+                        text =  responseData.data.outputs.body;
+
+                    }
+
+                output.textContent = JSON.stringify(text, null, 2);
+
+
+            } catch (error) {
+                Swal.fire('请求失败', error.message, 'error');
+                console.error('Error:', error);
+            } finally {
+                // 无论成功失败都恢复按钮状态
+                const submitBtn = document.querySelector('button');
+                submitBtn.disabled = false;
+                submitBtn.textContent = '发送请求';
+            }
+        }
+    </script>
+</body>
+
+</html>

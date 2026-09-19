@@ -1,0 +1,39 @@
+.top-bg {
+    background-image: url('/img/aichat_bg.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px 10px 0px 0px;
+    color: white;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.btn {
+    border-radius: 24px;
+    margin-bottom: 140px;
+}
+
+i {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 底部导航栏样式 */
+.nav-item {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.nav-item:active {
+    transform: scale(0.95);
+}
+
+.nav-item i {
+    transition: transform 0.3s ease;
+}
+
+.nav-item:hover i {
+    transform: translateY(-2px);
+}

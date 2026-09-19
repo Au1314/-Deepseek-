@@ -1,0 +1,55 @@
+/* 卡片背景图样式 */
+.card {
+    background-image: url('/img/la_bg.png');
+    background-size: cover;
+    background-position: center;
+}
+
+/* 标签胶囊样式 */
+.tag-capsule {
+    padding: 6px 12px;
+    background-color: #EFF6FF;
+    color: #4F46E5;
+    font-size: 14px;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-block;
+}
+
+.tag-capsule:hover {
+    background-color: #DBEAFE;
+    transform: translateY(-1px);
+}
+
+/* 信息卡片样式 */
+.info-card {
+    background-color: rgba(239, 246, 255, 0.8);
+    padding: 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.info-card:hover {
+    background-color: rgba(219, 234, 254, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.info-card h4 {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1F2937;
+    margin-bottom: 8px;
+}
+
+.info-card p {
+    font-size: 12px;
+    color: #6B7280;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

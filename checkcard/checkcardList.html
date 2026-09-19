@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>打卡记录</title>
+  <script src="/js/tailwindcss.js"></script>
+  <script src="/js/sweetalert2.all.min.js"></script>
+  <link rel="stylesheet" href="/css/all.min.css">
+  <link rel="stylesheet" href="/css/loading.css">
+  <link rel="stylesheet" href="checkcardList.css">
+</head>
+<body class="bg-[#F8FAFC] min-h-screen">
+  <!-- 导航栏 -->
+  <div class="fixed top-0 left-0 right-0 bg-white shadow-sm z-10">
+    <div class="flex items-center justify-between px-4 py-3 max-w-3xl mx-auto">
+      <button onclick="window.history.back()" class="w-10 h-10 flex items-center justify-center hover:bg-gray-100 rounded-xl transition-colors">
+        <i class="fas fa-arrow-left text-gray-600"></i>
+      </button>
+      <h1 class="text-lg font-bold">打卡记录</h1>
+      <button onclick="window.location.href='AIAnalysis.html'" class="text-sm font-medium text-[#304FFF] hover:bg-blue-50 px-3 py-1.5 rounded-lg transition-colors">
+        打卡分析
+      </button>
+    </div>
+  </div>
+
+  <!-- 主内容 -->
+  <div class="pt-16 px-4 pb-8 max-w-3xl mx-auto w-full">
+    <!-- 日期选择器 -->
+    <div id="date-container" class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide"></div>
+
+    <!-- 打卡卡片列表 -->
+    <div id="cardList" class="space-y-4 mt-4"></div>
+  </div>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/user.js"></script>
+  <script src="/js/loading.js"></script>
+  <script src="checkcardList.js"></script>
+</body>
+</html>

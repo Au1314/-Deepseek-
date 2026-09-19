@@ -1,0 +1,88 @@
+/* 隐藏数字输入框箭头 */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* 卡片基础样式 */
+.info-card {
+    background-color: #f9fafb;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    margin-left: 24px;
+    margin-right: 24px;
+    margin-bottom: 16px;
+}
+
+/* 卡片标题 */
+.card-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1f2937;
+    border-bottom: 1px dashed #d1d5db;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+}
+
+/* 数据行 */
+.info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+}
+
+.info-label {
+    width: 80px;
+    flex-shrink: 0;
+    color: #6b7280;
+    font-size: 0.9375rem;
+}
+
+.info-value {
+    color: #111827;
+    font-weight: 500;
+    text-align: right;
+    flex: 1;
+}
+
+/* 空状态样式 */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 24px;
+    text-align: center;
+}
+
+.empty-state h2 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    color: #374151;
+}
+
+.empty-state p {
+    color: #6b7280;
+    margin-bottom: 24px;
+}
+
+.btn-primary {
+    background-color: #000;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+    font-size: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}

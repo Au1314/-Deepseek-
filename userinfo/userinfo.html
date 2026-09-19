@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>个人信息</title>
+    <script src="/js/tailwindcss.js"></script>
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="userinfo.css">
+    <link rel="stylesheet" href="/css/loading.css">
+</head>
+<body class="min-h-screen bg-[#F3F8FC]" style="margin: 0; padding: 0;">
+
+    <!-- 顶部导航栏 -->
+    <nav class="bg-white shadow-sm flex items-center justify-between px-4 py-3">
+        <button onclick="window.history.back()"><i class="fas fa-chevron-left text-lg text-gray-600"></i></button>
+        <span class="text-lg font-bold">个人信息</span>
+        <button onclick="window.location.replace('/diabetesinfo.html')" class="text-sm text-blue-500 cursor-pointer">修改信息</button>
+    </nav>
+
+    <!-- 内容区 -->
+    <div id="userInfo" class="space-y-6 mt-6">
+        <!-- 由 userinfo.js 动态加载 -->
+    </div>
+
+    <script src="/js/config.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/loading.js"></script>
+    <script src="/js/user.js"></script>
+    <script src="userinfo.js"></script>
+
+</body>
+</html>

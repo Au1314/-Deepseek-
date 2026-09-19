@@ -1,0 +1,17 @@
+.title {
+  font-size: 22px;
+  font-weight: 800;
+  border-bottom: 1px dashed #e5e7eb;
+  padding-bottom: 8px;
+  color: #1a1a2e;
+}
+
+.message {
+  color: #8C8C8C;
+  line-height: 1.8;
+  font-size: 14px;
+}
+
+.progress-circle {
+  transition: stroke-dashoffset 0.5s ease-in-out;
+}

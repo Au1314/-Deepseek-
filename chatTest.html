@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat API Test</title>
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        .chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #response {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-height: 100px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h1>Chat API Test</h1>
+        <div class="form-group">
+            <label for="apiKey">API Key:</label>
+            <input type="text" id="apiKey" placeholder="Enter your API key" value="app-YOUR_CHAT_TOKEN">
+        </div>
+        <div class="form-group">
+            <label for="apiUrl">API Server URL:</label>
+            <input type="text" id="apiUrl" placeholder="Enter API server URL" value="http://YOUR_DIFY_HOST">
+        </div>
+        <div class="form-group">
+            <label for="query">Query:</label>
+            <textarea id="query" rows="3" placeholder="Enter your question" >我想咨询一下2型糖尿病相关的问题</textarea>
+        </div>
+        <div class="form-group">
+            <label for="parameters">Parameters (JSON):</label>
+            <textarea id="parameters" rows="3" placeholder='{"key": "value"}' >{
+                "userId": "123",
+                "sex": "male",
+                "age": 30,
+                "height": 175,
+                "weight": 70,
+                "familyHistory": "none",
+                "waistline": 80,
+                "systolicPressure": 120,
+                "isPregnancy": "no",
+                "disease": "no"
+            }</textarea>
+        </div>
+        <button onclick="sendChatMessage()">Send Message</button>
+        <div id="response"></div>
+    </div>
+
+    <script>
+        async function sendChatMessage() {
+            const apiKey = document.getElementById('apiKey').value;
+            const query = document.getElementById('query').value;
+            const parametersInput = document.getElementById('parameters').value;
+            const responseDiv = document.getElementById('response');
+            
+            if (!apiKey || !query) {
+                alert('Please enter both API key and query');
+                return;
+            }
+
+            let inputs = {};
+            if (parametersInput) {
+                try {
+                    inputs = JSON.parse(parametersInput);
+                } catch (e) {
+                    alert('Invalid JSON parameters');
+                    return;
+                }
+            }
+
+            responseDiv.innerHTML = 'Loading...';
+
+            try {
+                const apiUrl = document.getElementById('apiUrl').value;
+                const response = await fetch(`${apiUrl}/v1/chat-messages`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        inputs: inputs,
+                        query: query,
+                        response_mode: "streaming",
+                        conversation_id: "",
+                        user: "abc-123",
+                        files: [{
+                            type: "image",
+                            transfer_method: "remote_url",
+                            url: "https://cloud.dify.ai/logo/logo-site.png"
+                        }]
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                responseDiv.innerHTML = '';
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    const chunk = decoder.decode(value, { stream: true });
+                    let chunk1=""
+                    //以data:作为分割，分割出多个字符串
+                    const chunks = chunk.split('data: ');
+                    chunks.forEach((ck) => {
+                           //判断是否可以转为JSON对象
+                        try {
+                            const data = JSON.parse(ck);
+                            responseDiv.innerHTML += data.answer;
+
+                        }catch (error) {
+                            console.log("error:",ck)
+                        }
+                    })
+                }
+            } catch (error) {
+                responseDiv.innerHTML = `Error: ${error.message}`;
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

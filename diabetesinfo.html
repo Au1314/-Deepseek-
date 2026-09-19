@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>糖尿病情况</title>
+    <script src="/js/tailwindcss.js"></script>
+    <link rel="stylesheet" href="/css/all.min.css">
+    <style>
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f0f4f8;
+        }
+        /* 自定义下拉菜单 */
+        .custom-select-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .custom-select-wrapper select {
+            width: 100%;
+            padding: 12px 40px 12px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: #f9fafb;
+            font-size: 16px;
+            color: #1f2937;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .custom-select-wrapper select:focus {
+            border-color: #304FFF;
+            box-shadow: 0 0 0 2px rgba(48, 79, 255, 0.1);
+        }
+        .custom-select-wrapper .fa-chevron-right {
+            position: absolute;
+            right: 16px;
+            color: #9ca3af;
+            pointer-events: none;
+            font-size: 14px;
+        }
+        /* 类型按钮样式 */
+        .type-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .type-btn:hover {
+            border-color: #304FFF;
+            background: #f0f3ff;
+        }
+        .type-btn.active {
+            border-color: #304FFF;
+            background: #eef1ff;
+        }
+        .type-btn img {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+        .type-btn .type-info {
+            flex: 1;
+            text-align: left;
+        }
+        .type-btn .type-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: #1f2937;
+        }
+        .type-btn .type-desc {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+        .type-btn .fa-chevron-right {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+        /* 卡片 */
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            padding: 20px;
+        }
+        .card-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: #1f2937;
+            margin-bottom: 16px;
+        }
+        /* 下一步按钮 */
+        .btn-next {
+            width: 75%;
+            padding: 16px 0;
+            background: #304FFF;
+            color: #fff;
+            font-weight: 700;
+            font-size: 16px;
+            border: none;
+            border-radius: 60px;
+            box-shadow: 0 4px 12px rgba(48, 79, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-next:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(48, 79, 255, 0.4);
+        }
+        .btn-next:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部导航栏 (fixed) -->
+    <nav class="fixed top-0 w-full bg-white shadow-md px-4 py-4 flex items-center z-50">
+        <i class="fas fa-arrow-left text-gray-600 cursor-pointer text-lg" onclick="history.back()"></i>
+        <span class="text-xl font-bold flex-1 text-center">糖尿病情况</span>
+        <span class="w-6"></span>
+    </nav>
+
+    <!-- 内容区域 -->
+    <div class="pt-16 pb-24 px-4 max-w-screen-sm mx-auto">
+
+        <!-- 卡片①：是否患病 -->
+        <div class="card mt-4">
+            <div class="card-title">您是否患有糖尿病？</div>
+            <div class="custom-select-wrapper">
+                <select id="diabetesStatus">
+                    <option value="yes">是</option>
+                    <option value="no" selected>否</option>
+                </select>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+
+        <!-- 卡片②：糖尿病类型（选"是"时显示） -->
+        <div id="typeSection" class="card mt-4" style="display: none;">
+            <div class="card-title">请选择糖尿病类型</div>
+            <div class="border-t border-dashed border-gray-200 mb-4"></div>
+            <div class="space-y-3">
+                <!-- 1型糖尿病 -->
+                <div class="type-btn" data-type="1型糖尿病">
+                    <img src="/img/tnb1.png" alt="1型糖尿病">
+                    <div class="type-info">
+                        <div class="type-name">1型糖尿病</div>
+                        <div class="type-desc">胰岛素依赖型</div>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                <!-- 2型糖尿病 -->
+                <div class="type-btn" data-type="2型糖尿病">
+                    <img src="/img/tnb2.png" alt="2型糖尿病">
+                    <div class="type-info">
+                        <div class="type-name">2型糖尿病</div>
+                        <div class="type-desc">非胰岛素依赖型</div>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                <!-- 妊娠期糖尿病 -->
+                <div class="type-btn" data-type="妊娠期糖尿病">
+                    <img src="/img/tnb3.png" alt="妊娠期糖尿病">
+                    <div class="type-info">
+                        <div class="type-name">妊娠期糖尿病</div>
+                        <div class="type-desc">孕期高血糖</div>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                <!-- 其他 -->
+                <div class="type-btn" data-type="其他">
+                    <img src="/img/tnb4.png" alt="其他类型">
+                    <div class="type-info">
+                        <div class="type-name">其他</div>
+                        <div class="type-desc">特殊类型糖尿病</div>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 下一步按钮 -->
+        <div class="fixed bottom-8 left-0 right-0 flex justify-center">
+            <button id="nextBtn" class="btn-next">下一步</button>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * diabetesinfo.js — 糖尿病情况选择逻辑
+         */
+        window.onload = function() {
+            const status = document.getElementById('diabetesStatus');
+            const typeSection = document.getElementById('typeSection');
+            let selectedType = null;
+
+            // 下拉切换 → 显示/隐藏类型选择
+            status.addEventListener('change', function() {
+                if (this.value === 'yes') {
+                    typeSection.style.display = 'block';
+                } else {
+                    typeSection.style.display = 'none';
+                    // 选"否"时清除已选类型
+                    selectedType = null;
+                    document.querySelectorAll('.type-btn').forEach(b => {
+                        b.classList.remove('active');
+                    });
+                }
+            });
+
+            // 类型按钮选中
+            document.querySelectorAll('.type-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // 移除所有按钮的选中态
+                    document.querySelectorAll('.type-btn').forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    // 当前按钮添加选中态
+                    this.classList.add('active');
+                    // 获取类型名称（从 data-type 属性读取）
+                    selectedType = this.getAttribute('data-type');
+                });
+            });
+
+            // 下一步 → 校验 + 跳转
+            document.getElementById('nextBtn').addEventListener('click', function() {
+                if (status.value === 'yes' && !selectedType) {
+                    alert('请选择糖尿病类型');
+                    return;
+                }
+                const result = status.value === 'no' ? '否' : selectedType;
+                // 跳转至 informationGathering 页面，携带 disease 参数
+                window.location.replace('/informationGathering/informationGathering.html?disease=' + encodeURIComponent(result));
+            });
+        };
+    </script>
+
+</body>
+</html>

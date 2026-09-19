@@ -1,0 +1,64 @@
+/* 文章条目样式 */
+.article-item {
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.article-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+/* 图标容器样式 */
+.fa-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+.fa-icon:hover {
+    background: #F3F4F6;
+}
+
+/* 删除按钮样式 */
+.delete-btn {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9CA3AF;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.delete-btn:hover {
+    color: #EF4444;
+    background: #FEF2F2;
+}
+
+/* 空状态样式 */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #9CA3AF;
+}
+
+.empty-state i {
+    font-size: 64px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.empty-state p {
+    font-size: 14px;
+    margin-top: 12px;
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主内容页面</title>
+    <script src="/js/tailwindcss.js"></script>
+    <script src="/js/config.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="/css/swiper-bundle.min.css" />
+    <script src="/js/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <!-- 顶部导航栏 -->
+    <div class="nav-bar bg-white shadow-sm">
+        <div class="flex items-center justify-between px-4 py-3">
+            <img src="/img/logo_main.png" width="120">
+            <div class="relative w-8">
+                <i class="fa-icon absolute right-0 top-1/2 transform -translate-y-1/2 text-gray-400">
+                    <i class="fas fa-search text-xl"></i>
+                </i>
+            </div>
+        </div>
+    </div>
+
+    <!-- 完整内容区域 -->
+    <div class="content-area">
+        <!-- 轮播图 -->
+        <div class="swiper swiper-initialized swiper-horizontal swiper-ios swiper-backface-hidden">
+            <div class="swiper-wrapper" id="bannerDiv" aria-live="off"
+                style="transition-duration: 0ms; transform: translate3d(-780px, 0px, 0px); transition-delay: 0ms;">
+                <div class="swiper-slide swiper-slide-next" role="group" aria-label="NaN / 3" style="width: 390px;">
+                    <img src="/img/lb1.png" class="w-full h-full object-cover" alt="医疗科技">
+                </div>
+                <div class="swiper-slide swiper-slide-prev" role="group" aria-label="NaN / 3" style="width: 390px;">
+                    <img src="/img/lb2.png" class="w-full h-full object-cover" alt="医疗科技">
+                </div>
+                <div class="swiper-slide swiper-slide-active" role="group" aria-label="NaN / 3" style="width: 390px;">
+                    <img src="/img/lb3.jpeg" class="w-full h-full object-cover" alt="医疗科技">
+                </div>
+            </div>
+            <!-- 分页器 -->
+            <div
+                class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal">
+                <span class="swiper-pagination-bullet" tabindex="0" role="button"
+                    aria-label="Go to slide 1"></span><span class="swiper-pagination-bullet" tabindex="0" role="button"
+                    aria-label="Go to slide 2"></span><span
+                    class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button"
+                    aria-label="Go to slide 3" aria-current="true"></span></div>
+            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+        </div>
+        <!-- 专业医师团队 -->
+        <div class="px-4 py-3">
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="text-lg font-semibold text-gray-800">专业医师团队</h2>
+                <a href="#" class="text-sm text-primary">查看全部 <i class="fas fa-chevron-right ml-1"></i></a>
+            </div>
+            <div id="doctors-container" class="doctors-scroll">
+                <!-- Doctors will be loaded here dynamically -->
+                <div class="text-center py-10 w-full text-gray-500">加载医生数据中...</div>
+            </div>
+        </div>
+
+        <!-- 健康科普栏 -->
+        <div class="px-4 py-3">
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="text-lg font-semibold text-gray-800">健康科普</h2>
+                <a href="#" class="text-sm text-primary">更多 <i class="fas fa-chevron-right ml-1"></i></a>
+            </div>
+            <div id="articles-container" class="article-list">
+                <!-- Articles will be loaded here dynamically -->
+                <div class="text-center py-10 text-gray-500">加载文章数据中...</div>
+            </div>
+        </div>
+
+        <!-- 糖尿病类型栏 -->
+        <div class="px-4 py-3">
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="text-lg font-semibold text-gray-800">糖尿病类型</h2>
+                <a href="#" class="text-sm text-primary">全部 <i class="fas fa-chevron-right ml-1"></i></a>
+            </div>
+            <div id="types-container" class="types-grid">
+                <!-- Diabetes types will be loaded here dynamically -->
+                <div class="text-center py-10 col-span-2 text-gray-500">加载糖尿病类型数据中...</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

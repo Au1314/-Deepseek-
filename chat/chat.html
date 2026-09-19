@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>医师咨询</title>
+    <script src="/js/tailwindcss.js"></script>
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="chat.css">
+    <script src="/js/sweetalert2.all.min.js"></script>
+</head>
+
+<body>
+
+    <!-- ===== 全屏 flex 容器 ===== -->
+    <div class="flex flex-col h-screen overflow-hidden bg-gray-50">
+
+        <!-- ===== 顶部固定导航栏 ===== -->
+        <header class="flex-shrink-0 bg-white shadow-sm z-10">
+            <div class="flex items-center justify-between px-4 h-12">
+                <button id="backBtn" class="text-gray-700 text-lg w-8 h-8 flex items-center justify-center">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <h1 class="text-lg font-semibold text-gray-800">医师咨询</h1>
+                <button id="clearBtn" class="text-gray-400 hover:text-red-500 text-lg w-8 h-8 flex items-center justify-center">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- ===== 医师信息卡片 ===== -->
+        <div id="doctorCard" class="flex-shrink-0 bg-gray-50 pt-3 pb-2 px-4" style="display:none;">
+            <div class="bg-white rounded-xl shadow-sm p-3 flex items-center">
+                <div class="relative flex-shrink-0">
+                    <img id="doctorAvatar" src="/img/user.jpg" alt="医师头像"
+                         class="doctor-avatar object-cover">
+                    <span class="status-dot absolute bottom-0 right-0 border-2 border-white"></span>
+                </div>
+                <div class="ml-3 flex-1 min-w-0">
+                    <div class="flex items-center">
+                        <span id="doctorName" class="text-base font-semibold text-gray-900">医师姓名</span>
+                        <span class="ml-2 text-xs text-white bg-green-500 px-2 py-0.5 rounded-full">在线</span>
+                    </div>
+                    <p id="doctorDept" class="text-xs text-gray-500 mt-0.5">科室 · 职称</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 聊天消息区域（flex-1 自动填充剩余空间，可滚动） ===== -->
+        <div id="messages-container" class="flex-1 overflow-y-auto px-4 py-3">
+            <!-- 消息会通过 JS 动态插入 -->
+        </div>
+
+        <!-- ===== 底部固定输入栏 ===== -->
+        <div id="inputBar" class="flex-shrink-0 bg-white border-t border-gray-200 px-4" style="height:65px;">
+            <div class="flex items-center h-full space-x-2">
+                <div class="flex-1 bg-gray-100 rounded-full px-4">
+                    <input id="messageInput" type="text"
+                           class="w-full h-10 bg-transparent outline-none text-sm text-gray-800 placeholder-gray-400"
+                           placeholder="输入消息..." autocomplete="off">
+                </div>
+                <button id="sendBtn"
+                        class="send-btn bg-primary text-white rounded-full flex-shrink-0 transition-opacity duration-200"
+                        style="display:none; width:36px; height:36px;">
+                    <i class="fas fa-paper-plane text-sm"></i>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/js/config.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/user.js"></script>
+    <script src="chat.js"></script>
+
+</body>
+
+</html>

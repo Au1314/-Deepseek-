@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>方案定制</title>
+  <script src="/js/tailwindcss.js"></script>
+  <link rel="stylesheet" href="/css/all.min.css">
+</head>
+<body class="bg-white min-h-screen">
+  <!-- 导航栏 -->
+  <div class="fixed top-0 left-0 right-0 bg-white shadow-sm z-10">
+    <div class="flex items-center justify-between px-4 py-3 max-w-3xl mx-auto">
+      <button onclick="window.history.back()" class="w-10 h-10 flex items-center justify-center hover:bg-gray-100 rounded-xl transition-colors">
+        <i class="fas fa-arrow-left text-gray-600"></i>
+      </button>
+      <h1 class="text-lg font-medium">方案定制</h1>
+      <span class="w-8"></span>
+    </div>
+  </div>
+
+  <!-- 主内容 -->
+  <div class="pt-20 px-4 flex flex-col items-center min-h-screen">
+    <!-- 插画 -->
+    <img src="/img/noscheme.jpg" class="w-full max-w-[280px] rounded-2xl shadow-sm">
+
+    <!-- 文字 -->
+    <p class="text-gray-600 text-lg mt-6">你还没有定制自己的生活方案</p>
+    <p class="text-gray-400 text-sm mt-2">开始规划美好生活</p>
+
+    <!-- 去制定按钮 -->
+    <button onclick="window.location.href='getScheme.html'" class="w-full max-w-[320px] h-12 bg-[#4F46E5] text-white font-medium rounded-xl flex items-center justify-center hover:opacity-90 transition-opacity text-base mt-8">
+      去制定
+    </button>
+  </div>
+
+  <script src="noScheme.js"></script>
+</body>
+</html>

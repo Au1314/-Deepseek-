@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI智能管理平台</title>
+    <script src="../js/tailwindcss.js"></script>
+    <link rel="stylesheet" href="../css/all.min.css">
+    <link rel="stylesheet" href="adminAI.css">
+    <script src="../js/sweetalert2.all.min.js"></script>
+</head>
+<body class="bg-[#F5F5F5] min-h-screen">
+    <!-- 顶部导航栏 fixed 白底 shadow-sm -->
+    <header class="fixed top-0 left-0 right-0 z-10 bg-white/95 backdrop-blur-sm nav-shadow">
+        <div class="flex items-center justify-between px-4 py-3 max-w-md mx-auto">
+            <button onclick="window.history.back()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors cursor-pointer" aria-label="返回">
+                <i class="fas fa-chevron-left text-gray-600"></i>
+            </button>
+            <h1 class="text-lg font-medium text-gray-800">AI智能管理平台</h1>
+            <button id="helpBtn" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors cursor-pointer" aria-label="帮助">
+                <i class="fa-regular fa-circle-question text-gray-400"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- 主体容器 pt-[72px] 避让 header，居中 max-w-md -->
+    <main class="pt-[72px] px-4 w-full max-w-md mx-auto pb-10">
+        <!-- 搜索输入区 -->
+        <div class="mb-6 animate-fadeIn">
+            <label for="searchInput" class="sr-only">操作指令输入框</label>
+            <div class="relative">
+                <input type="text" id="searchInput" placeholder="请输入操作指令，例如「查询所有用户」"
+                    class="w-full h-[48px] bg-white rounded-lg pl-4 pr-12 text-sm border-none input-shadow outline-none focus:ring-2 focus:ring-[#007AFF]/20 transition-all duration-200"
+                    autocomplete="off">
+                <button id="btn" class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer hover:scale-110 transition-transform duration-200 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-[#007AFF]" aria-label="搜索">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <p class="text-xs text-gray-400 mt-2 pl-1">
+                <i class="far fa-keyboard mr-1"></i>按 <kbd class="px-1.5 py-0.5 bg-gray-100 rounded text-[10px] font-mono border border-gray-200">Enter</kbd> 快速执行
+            </p>
+        </div>
+
+        <!-- 3 个结果卡片 -->
+        <div class="space-y-4">
+            <!-- 卡片1：执行结果 -->
+            <div class="bg-white p-4 rounded-lg card-shadow animate-fadeIn" style="animation-delay: 0.1s;">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-base font-medium !shadow-none !border-none !pb-0">执行结果</h3>
+                    <span class="text-[10px] text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full" id="resultTime">--</span>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-500 w-10 shrink-0">状态：</span>
+                        <span class="text-sm text-gray-800 font-medium" id="status">等待指令...</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-500 w-10 shrink-0">操作：</span>
+                        <span class="text-sm text-gray-600" id="message">请输入操作指令以执行</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 卡片2：数据概览 -->
+            <div class="bg-white p-4 rounded-lg card-shadow animate-fadeIn" style="animation-delay: 0.15s;">
+                <h3 class="text-base font-medium mb-3">数据概览</h3>
+                <div class="overflow-x-auto w-full" id="dataTableContainer">
+                    <!-- 动态渲染数据表格 -->
+                    <div class="flex flex-col items-center justify-center py-10 text-gray-300 empty-state">
+                        <i class="fas fa-database text-4xl mb-3"></i>
+                        <p class="text-sm">暂无数据</p>
+                    </div>
+                </div>
+                <!-- 数据统计 -->
+                <div id="statsContainer" class="hidden mt-3 pt-3 border-t border-gray-100">
+                    <div class="flex items-center justify-between text-xs text-gray-500">
+                        <span>共 <strong id="totalCount" class="text-[#007AFF]">0</strong> 条记录</span>
+                        <span>字段数 <strong id="fieldCount" class="text-[#5856D6]">0</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 卡片3：操作日志 -->
+            <div class="bg-white p-4 rounded-lg card-shadow animate-fadeIn" style="animation-delay: 0.2s;">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-base font-medium !shadow-none !border-none !pb-0">操作日志</h3>
+                    <div class="flex items-center space-x-2">
+                        <span id="logCount" class="text-[10px] text-gray-400 bg-gray-50 px-2 py-0.5 rounded-full">0 条</span>
+                        <button id="clearLogsBtn" class="text-[10px] text-red-400 hover:text-red-500 transition-colors px-2 py-0.5 rounded-full hover:bg-red-50 cursor-pointer hidden" aria-label="清除日志">
+                            <i class="fas fa-trash-alt mr-0.5"></i>清空
+                        </button>
+                    </div>
+                </div>
+                <div class="space-y-3" id="logContainer">
+                    <!-- 动态渲染操作日志 -->
+                    <div class="flex flex-col items-center justify-center py-8 text-gray-300 empty-state">
+                        <i class="fas fa-history text-3xl mb-2"></i>
+                        <p class="text-sm">暂无操作记录</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 帮助弹窗遮罩 -->
+    <div id="helpModalOverlay" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden items-center justify-center p-4" style="display: none;">
+        <div id="helpModal" class="bg-white rounded-2xl w-full max-w-sm max-h-[80vh] overflow-y-auto shadow-2xl transform scale-95 transition-all duration-200">
+            <div class="sticky top-0 bg-white border-b border-gray-100 px-5 py-4 flex items-center justify-between rounded-t-2xl">
+                <h2 class="text-base font-medium text-gray-800">
+                    <i class="fa-regular fa-circle-question text-[#007AFF] mr-2"></i>使用帮助
+                </h2>
+                <button id="closeHelpBtn" class="w-7 h-7 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors cursor-pointer text-gray-400 hover:text-gray-600" aria-label="关闭">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="px-5 py-4 space-y-4">
+                <div>
+                    <h4 class="text-sm font-medium text-gray-700 mb-2">📋 支持的操作指令</h4>
+                    <ul class="space-y-1.5 text-sm text-gray-600">
+                        <li class="flex items-start space-x-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#007AFF] mt-1.5 shrink-0"></span>
+                            <span>查询网站中所有用户的用户名</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#007AFF] mt-1.5 shrink-0"></span>
+                            <span>查询患1型糖尿病的用户数量</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#007AFF] mt-1.5 shrink-0"></span>
+                            <span>统计各类型糖尿病的用户分布</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#007AFF] mt-1.5 shrink-0"></span>
+                            <span>查看更多管理类数据分析...</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-blue-50 rounded-lg p-3">
+                    <h4 class="text-sm font-medium text-blue-800 mb-1.5">💡 提示</h4>
+                    <p class="text-xs text-blue-600 leading-relaxed">输入自然语言指令即可让 AI 自动执行管理操作。点击日志记录可以回放之前的结果。</p>
+                </div>
+                <div class="text-[11px] text-gray-400 text-center pt-1 border-t border-gray-50">
+                    数据仅保存在本地浏览器中
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast 通知容器 -->
+    <div id="toastContainer" class="fixed bottom-20 left-1/2 transform -translate-x-1/2 z-50 flex flex-col items-center space-y-2 pointer-events-none"></div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="adminAI.js"></script>
+</body>
+</html>

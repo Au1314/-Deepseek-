@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>个人中心</title>
+    <!-- Tailwind CSS 运行时 -->
+    <script src="/js/tailwindcss.js"></script>
+    <script src="/js/sweetalert2.all.min.js"></script>
+    <!-- Font Awesome 图标库 -->
+    <link rel="stylesheet" href="/css/all.min.css">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="css/mine.css">
+</head>
+<body class="bg-gray-50 min-h-screen" style="margin: 0; padding: 0;">
+
+    <!-- 固定顶部导航栏 -->
+    <header class="fixed top-0 left-0 right-0 z-10 shadow-sm bg-white" style="height: 48px;">
+        <div class="flex items-center justify-center h-full px-4">
+            <span class="text-lg font-medium">个人中心</span>
+        </div>
+    </header>
+
+    <!-- 内容安全区（避开顶部导航栏和底部Tab栏） -->
+    <div class="safe-area">
+
+        <!-- 白色圆角卡片 -->
+        <div class="m-4 bg-white rounded-lg shadow-md overflow-hidden">
+
+            <!-- ① 用户信息区 -->
+            <div class="text-center px-4 pt-6 pb-6">
+                <div class="relative w-20 h-20 mx-auto">
+                    <img id="userAvatar" src="/img/user2.png" class="w-full h-full rounded-full object-cover border-2 border-blue-500">
+                </div>
+                <h2 id="userName" class="text-lg font-medium mt-2">用户</h2>
+            </div>
+
+            <!-- ② 菜单列表 -->
+            <div id="menuList">
+
+                <!-- 个人信息 -->
+                <div class="py-3 flex items-center justify-between border-t border-gray-100 px-4">
+                    <div class="flex items-center" onclick="window.location.href='/userinfo/userinfo.html'" style="cursor: pointer;">
+                        <img src="/img/menu1.png" width="22" height="22">
+                        <span class="ml-3">个人信息</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+
+                <!-- 我的方案 -->
+                <div class="py-3 flex items-center justify-between border-t border-gray-100 px-4">
+                    <div class="flex items-center" onclick="window.location.href='/scheme/scheme.html'" style="cursor: pointer;">
+                        <img src="/img/menu2.png" width="22" height="22">
+                        <span class="ml-3">我的方案</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+
+                <!-- 我的科普 -->
+                <div class="py-3 flex items-center justify-between border-t border-gray-100 px-4">
+                    <div class="flex items-center" onclick="window.location.href='/lifeadvice/lifeAdviceList.html'" style="cursor: pointer;">
+                        <img src="/img/menu3.png" width="22" height="22">
+                        <span class="ml-3">我的资讯</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+
+                <!-- 打卡记录 -->
+                <div class="py-3 flex items-center justify-between border-t border-gray-100 px-4">
+                    <div class="flex items-center" onclick="window.location.href='/checkcard/checkcardList.html'" style="cursor: pointer;">
+                        <img src="/img/menu4.png" width="22" height="22">
+                        <span class="ml-3">打卡记录</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+
+                <!-- 通知设置 -->
+                <div class="py-3 flex items-center justify-between border-t border-gray-100 px-4">
+                    <div class="flex items-center" onclick="openNotificationSettings()" style="cursor: pointer;">
+                        <img src="/img/menu6.png" width="22" height="22">
+                        <span class="ml-3">通知设置</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+
+                <!-- 帮助中心（无跳转） -->
+                <div class="py-3 flex items-center justify-between border-t border-gray-100 px-4">
+                    <div class="flex items-center">
+                        <img src="/img/menu5.png" width="22" height="22">
+                        <span class="ml-3">帮助中心</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+
+                <!-- AI智能管理平台（仅 admin 可见） -->
+                <div class="py-3 flex items-center justify-between border-t border-gray-100 px-4">
+                    <div class="flex items-center" onclick="window.location.href='/ai/adminAI.html'" style="cursor: pointer;">
+                        <img src="/img/menu7.png" width="22" height="22">
+                        <span class="ml-3">AI智能管理平台</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+
+            </div>
+
+            <!-- ③ 退出登录按钮 -->
+            <div class="px-4 mt-6 pb-6">
+                <button id="logoutBtn" class="block w-2/3 mx-auto bg-white border border-gray-200 text-gray-500 py-3 rounded-lg" style="cursor: pointer;">
+                    退出登录
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- 脚本 -->
+    <script src="/js/user.js"></script>
+    <script src="/js/notification.js"></script>
+    <script src="js/mine.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>糖尿病知识</title>
+    <link href="/css/all.min.css" rel="stylesheet">
+    <script src="/js/tailwindcss.js"></script>
+    <script src="js/diabetes.js"></script>
+    <script src="/js/config.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/loading.js"></script>
+    <script src="/js/showAlert.js"></script>
+    <link rel="stylesheet" href="/css/loading.css">
+    <link rel="stylesheet" href="css/diabetes.css">
+</head>
+
+<body>
+    <header class="top-0 left-0 right-0 z-10 shadow-sm bg-white">
+        <div class="flex items-center justify-between px-4 py-3">
+            <button onclick="window.history.back()">
+                <i class="fas fa-chevron-left text-lg"></i>
+            </button>
+            <h1 class="text-lg font-medium" id="type_name"></h1>
+            <button>
+            </button>
+        </div>
+    </header>
+
+    <div style="width: 100vw;">
+        <div class="img-container">
+            <img id="img" src="/img/t1.jpg" class="flex w-full h-full object-cover" alt="糖尿病封面">
+        </div>
+        <div class="px-4 py-6">
+            <section class="mb-8">
+                <h2>发病机制</h2>
+                <div id="pathogenesis" class="space-y-4">
+                </div>
+            </section>
+
+            <section class="mb-8">
+                <h2>临床表现</h2>
+                <div id="manifestation" class="space-y-4">
+                </div>
+            </section>
+
+            <section class="mb-8">
+                <h2>治疗方法</h2>
+                <div id="treatment" class="space-y-4">
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>糖尿病预治智能助手 — 数据库数据字典 & ER 关系图</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #f0f2f5; color: #333; padding: 40px 20px; }
+        .container { max-width: 1280px; margin: 0 auto; }
+
+        h1 { text-align: center; font-size: 28px; color: #1a1a2e; margin-bottom: 6px; }
+        .subtitle { text-align: center; color: #888; font-size: 13px; margin-bottom: 36px; }
+
+        /* 汇总卡片 */
+        .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; margin-bottom: 36px; }
+        .summary-card { background: #fff; border-radius: 10px; padding: 18px 12px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+        .summary-card .num { font-size: 30px; font-weight: 800; color: #e94560; }
+        .summary-card .label { font-size: 12px; color: #999; margin-top: 4px; }
+
+        /* 模块标题 */
+        .section-title { font-size: 19px; color: #16213e; margin: 36px 0 6px; padding-left: 14px; border-left: 4px solid #e94560; }
+        .section-desc { color: #999; font-size: 12px; margin-bottom: 12px; padding-left: 18px; }
+
+        /* 数据表包裹 */
+        .table-wrapper { background: #fff; border-radius: 10px; overflow: hidden; margin-bottom: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .table-wrapper .table-header { background: #16213e; color: #fff; padding: 12px 18px; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .table-wrapper .table-header .tbl-name { font-family: 'Courier New', monospace; background: rgba(255,255,255,0.15); padding: 2px 10px; border-radius: 4px; font-size: 13px; }
+        .table-wrapper .table-header .tbl-rel { margin-left: auto; font-size: 11px; font-weight: 400; color: #ccc; }
+
+        table { width: 100%; border-collapse: collapse; }
+        thead { background: #f7f8fc; }
+        thead th { padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 700; color: #555; border-bottom: 2px solid #e8eaf0; }
+        tbody td { padding: 9px 14px; font-size: 12.5px; border-bottom: 1px solid #f0f1f5; vertical-align: middle; }
+        tbody tr:hover { background: #fafbff; }
+
+        .badge { display: inline-block; padding: 1px 8px; border-radius: 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
+        .badge-pk { background: #ffe0e6; color: #d63031; }
+        .badge-fk { background: #dfe6ff; color: #2d3a8c; }
+        .badge-ai { background: #e0f8e0; color: #1b7a1b; }
+        .badge-uniq { background: #fff3e0; color: #e68900; }
+        .badge-check { background: #f0e6ff; color: #7b2d8e; }
+        .badge-def { background: #e8f4fd; color: #0c7cd5; }
+
+        /* ER 图 */
+        .er-section { margin-top: 48px; }
+        .er-container { background: #fff; border-radius: 12px; padding: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); overflow-x: auto; }
+        .er-diagram { display: flex; flex-wrap: wrap; gap: 18px; justify-content: center; }
+
+        .er-entity { border: 2px solid #16213e; border-radius: 8px; min-width: 200px; max-width: 240px; background: #fafbff; flex: 1 1 200px; }
+        .er-entity-header { background: #16213e; color: #fff; padding: 10px 12px; font-weight: 700; font-size: 13px; text-align: center; border-radius: 6px 6px 0 0; }
+        .er-entity-header.sub { background: #0f3460; font-size: 11px; font-weight: 400; padding: 4px 12px; border-radius: 0; }
+        .er-entity-body { padding: 6px 0; }
+        .er-field { padding: 3px 12px; font-size: 11px; display: flex; justify-content: space-between; align-items: center; }
+        .er-field.pk-field { background: #fff0f3; font-weight: 700; color: #d63031; }
+        .er-field.fk-field { background: #eef4ff; font-weight: 600; color: #2d3a8c; }
+
+        .er-relations { margin-top: 28px; }
+        .er-rel-title { font-size: 16px; color: #16213e; margin-bottom: 12px; padding-left: 14px; border-left: 4px solid #e94560; }
+        .er-rel-item { display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: #fff; border-radius: 8px; margin-bottom: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); font-size: 12.5px; flex-wrap: wrap; }
+        .er-rel-from { font-weight: 700; color: #16213e; }
+        .er-rel-arrow { color: #e94560; font-weight: 800; font-size: 14px; }
+        .er-rel-to { font-weight: 700; color: #0f3460; }
+        .er-rel-label { color: #aaa; font-size: 11px; }
+
+        /* 图例 */
+        .legend { display: flex; gap: 18px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #666; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1>📘 糖尿病预治智能助手 — 数据库数据字典</h1>
+    <p class="subtitle">Express + SQLite · 共 13 张表 · 基于接口文档同步生成</p>
+
+    <!-- 汇总 -->
+    <div class="summary">
+        <div class="summary-card"><div class="num">13</div><div class="label">数据表总数</div></div>
+        <div class="summary-card"><div class="num">5</div><div class="label">业务模块</div></div>
+        <div class="summary-card"><div class="num">7</div><div class="label">外键关联</div></div>
+        <div class="summary-card"><div class="num">8</div><div class="label">自增主键表</div></div>
+        <div class="summary-card"><div class="num">3000</div><div class="label">服务端口</div></div>
+    </div>
+
+    <!-- ==================== 模块一：用户与认证 ==================== -->
+    <div class="section-title">一、用户与认证模块</div>
+    <div class="section-desc">管理用户基本信息、登录凭证及糖尿病风险评估数据 &nbsp;|&nbsp; 接口：<code>fetchSQLWorkflow("查询用户名为…密码为…")</code> / <code>fetchSQLWorkflow("创建用户名为…")</code> / <code>fetchSQLWorkflow("查询id为…的用户的用户风险信息")</code></div>
+
+    <div class="table-wrapper">
+        <div class="table-header">👤 users <span class="tbl-name">users</span> <span class="tbl-rel">被 6 张表引用</span></div>
+        <table>
+            <thead><tr><th>字段名</th><th>类型</th><th>允许空</th><th>键/属性</th><th>说明</th></tr></thead>
+            <tbody>
+                <tr><td>user_id</td><td>INTEGER</td><td>❌</td><td><span class="badge badge-pk">PK</span> <span class="badge badge-ai">自增</span></td><td>用户唯一标识 ID，登录成功后存入 localStorage.user</td></tr>
+                <tr><td>username</td><td>TEXT</td><td>❌</td><td><span class="badge badge-uniq">唯一</span></td><td>用户名，用于登录鉴权（接口传入动态 username）</td></tr>
+                <tr><td>password</td><td>TEXT</td><td>❌</td><td>—</td><td>登录密码，当前为明文存储（接口传入动态 password）</td></tr>
+                <tr><td>avatar_url</td><td>TEXT</td><td>✅</td><td>—</td><td>用户头像图片地址，前端通过 /img/ 访问</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-wrapper">
+        <div class="table-header">📊 user_risk_info <span class="tbl-name">user_risk_info</span> <span class="tbl-rel">FK → users(userId)</span></div>
+        <table>
+            <thead><tr><th>字段名</th><th>类型</th><th>允许空</th><th>键/属性</th><th>说明</th></tr></thead>
+            <tbody>
+                <tr><td>userId</td><td>INTEGER</td><td>❌</td><td><span class="badge badge-pk">PK</span> <span class="badge badge-fk">FK → users(user_id)</span></td><td>关联用户 ID，与 users 表一对一扩展</td></tr>
+                <tr><td>age</td><td>INTEGER</td><td>✅</td><td>—</td><td>年龄（岁）</td></tr>
+                <tr><td>sex</td><td>TEXT</td><td>✅</td><td>—</td><td>性别（男 / 女）</td></tr>
+                <tr><td>height</td><td>INTEGER</td><td>✅</td><td>—</td><td>身高（cm）</td></tr>
+                <tr><td>weight</td><td>INTEGER</td><td>✅</td><td>—</td><td>体重（kg）</td></tr>
+                <tr><td>familyHistory</td><td>TEXT</td><td>✅</td><td>—</td><td>家族糖尿病病史（"无" / 具体描述）</td></tr>
+                <tr><td>waistline</td><td>INTEGER</td><td>✅</td><td>—</td><td>腰围（cm），用于腹型肥胖评估</td></tr>
+                <tr><td>systolicPressure</td><td>INTEGER</td><td>✅</td><td>—</td><td>收缩压（mmHg），接近 130 为正常高值</td></tr>
+                <tr><td>isPregnancy</td><td>TEXT</td><td>✅</td><td>—</td><td>是否妊娠（是 / 否），男性不适用</td></tr>
+                <tr><td>message</td><td>TEXT</td><td>✅</td><td>—</td><td>糖尿病风险评估结果说明文本（含风险等级、建议）</td></tr>
+                <tr><td>disease</td><td>TEXT</td><td>✅</td><td>—</td><td>是否已患糖尿病（是 / 否），由检测接口判定</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ==================== 模块二：内容展示 ==================== -->
+    <div class="section-title">二、内容展示模块</div>
+    <div class="section-desc">管理首页轮播图、健康科普文章及文章收藏关系 &nbsp;|&nbsp; 接口：<code>fetchSQLWorkflow("获取医生列表")</code> / <code>fetchSQLWorkflow("查询3篇文章信息")</code> / <code>fetchSQLWorkflow("获取糖尿病类型")</code> / <code>fetchSQLWorkflow("查询id为…的文章信息")</code> / <code>fetchSQLWorkflow("查询id为…的糖尿病类型信息")</code></div>
+
+    <div class="table-wrapper">
+        <div class="table-header">🖼️ slides <span class="tbl-name">slides</span></div>
+        <table>
+            <thead><tr><th>字段名</th><th>类型</th><th>允许空</th><th>键/属性</th><th>说明</th></tr></thead>
+            <tbody>
+                <tr><td>slide_id</td><td>INTEGER</td><td>❌</td><td><span class="badge badge-pk">PK</span> <span class="badge badge-ai">自增</span></td><td>轮播图 ID</td></tr>
+                <tr><td>image_url</td><td>TEXT</td><td>❌</td><td>—</td><td>轮播图片地址（如 /img/p1.png）</td></tr>
+                <tr><td>link_url</td><td>TEXT</td><td>✅</td><td>—</td><td>点击跳转链接（外部链接）</td></tr>
+                <tr><td>isTop</td><td>INTEGER</td><td>✅</td><td><span class="badge badge-check">0/1</span> <span class="badge badge-def">默认 0</span></td><td>是否置顶展示（1=是，0=否），CHECK 约束仅允许 0 或 1</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-wrapper">
+        <div class="table-header">📰 articles <span class="tbl-name">articles</span> <span class="tbl-rel">被 article_collections 引用</span></div>
+        <table>
+            <thead><tr><th>字段名</th><th>类型</th><th>允许空</th><th>键/属性</th><th>说明</th></tr></thead>
+            <tbody>
+                <tr><td>article_id</td><td>INTEGER</td><td>❌</td><td><span class="badge badge-pk">PK</span> <span class="badge badge-ai">自增</span></td><td>文章 ID，URL 参数 id 即此字段</td></tr>
+                <tr><td>title</td><td>TEXT</td><td>❌</td><td>—</td><td>文章标题</td></tr>
+                <tr><td>cover_url</td><td>TEXT</td><td>✅</td><td>—</td><td>封面图地址（外部 URL 或本地路径）</td></tr>
+                <tr><td>author</td><td>TEXT</td><td>❌</td><td>—</td><td>作者（如：健康专家 A）</td></tr>
+                <tr><td>publish_time</td><td>TEXT</td><td>❌</td><td>—</td><td>发布时间（格式：YYYY-MM-DD）</td></tr>
+                <tr><td>content</td><td>TEXT</td><td>❌</td><td>—</td><td>文章正文内容（前端直接渲染）</td></tr>
+                <tr><td>category</td><td>TEXT</td><td>✅</td><td>—</td><td>文章分类（如：糖尿病科普）</td></tr>
+                <tr><td>views</td><td>INTEGER</td><td>✅</td><td><span class="badge badge-def">默认 0</span></td><td>浏览量，每次打开文章详情可 +1</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-wrapper">
+        <div class="table-header">⭐ article_collections <span class="tbl-name">article_collections</span> <span class="tbl-rel">FK → users / articles</span></div>
+        <table>
+            <thead><tr><th>字段名</th><th>类型</th><th>允许空</th><th>键/属性</th><th>说明</th></tr></thead>
+            <tbody>
+                <tr><td>collection_id</td><td>INTEGER</td><td>❌</td><td><span class="badge badge-pk">PK</span> <span class="badge badge-ai">自增</span></td><td>收藏记录 ID</td></tr>
+                <tr><td>user_id</td><td>INTEGER</td><td>✅</td><td><span class="badge badge-fk">FK → users(user_id)</span></td><td>收藏用户 ID</td></tr>
+                <tr><td>article_id</td><td>INTEGER</td><td>✅</td><td><span class="badge badge-fk">FK → articles(article_id)</span></td><td>被收藏文章 ID</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ==================== 模块三：健康打卡与计划 ==================== -->
+    <div class="section-title">三、健康打卡与计划模块</div>
+    <div class="section-desc">记录用户每日饮食/运动打卡、个性化生活计划及 AI 生成的健康建议</div>
+
+    <div class="table-wrapper">
+        <div class="table-header">✅ punch_in <span class="tbl-name">punch_in</span> <span class="tbl-rel">FK → users(user_id)</span></div>
+        <table>
+            <thead><tr><th>字段名</th><th>类型</th><th>允许空</th><th>键/属性</th><th>说明</th></tr></thead>
+            <tbody>
+                <tr><td>user_id</td><td>INTEGER</td><td>❌</td><td><span class="badge badge-fk">FK → users(user_id)</span></td><td>打卡用户 ID</td></tr>
+                <tr><td>punch_time</td><td>DATETIME</td><td>❌</td><td>—</td><td>打卡时间（格式：YYYY-MM-DD）</td></tr>
+                <tr><td>punch_type</td><td>TEXT</td><td>❌</td><td>—</td><td>打卡类型（饮食 / 运动）</td></tr>
+                <tr><td>completion_status</td><td>TEXT</td><td>❌</td><td>—</td><td>完成状态（已达成 / 未达成 / 超额完成）</td></tr>
+                <tr><td>message</td><td>TEXT(255)</td><td>✅</td><td>—</td><td>打卡备注说明（如："今天吃的蔬菜比较多"）</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-wrapper">
+        <div class="table-header">📋 life_plans <span class="tbl-name">life_plans</span> <span class="tbl-rel">FK → users(user_id)</span></div>
+        <table>
+            <thead><tr><th>字段名</th><th>类型</th><th>允许空</th><th>键/属性</th><th>说明</th></tr></thead>
+            <tbody>
+                <tr><td>id</td><td>INTEGER</td><td>❌</td><td><span class="badge badge-pk">PK</span> <span class="badge badge-ai">自增</span></td><td>计划 ID</td></tr>
+                <tr><td>user_id</td><td>INTEGER</td><td>❌</td><td><span class="badge badge-fk">FK → users(user_id)</span></td><td>所属用户 ID</td></tr>
+                <tr><td>type</td><td>TEXT</td><td>❌</td><td><span class="badge badge-check">饮食/运动/其他</span></td><td>计划类型，CHECK 约束限定三种取值</td></tr>
+                <tr><td>order</td><td>INTEGER</td><td>❌</td><td>—</td><td>排序序号，控制展示顺序</td></tr>
+                <tr><td>time</td><td>TEXT</td><td>❌</td><td>—</td><td>建议执行时间段（如：7:30-8:00、周末10:00-11:30）</td></tr>
+                <tr><td>title</td><td>TEXT</td><td>❌</td><td>—</td><td>计划标题（如：早餐建议、晨间快走）</td></tr>
+                <tr><td>content</td><td>TEXT</td><td>❌</td><td>—</td><td>计划详细内容（具体饮食/运动指导说明）</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-wrapper">
+        <div class="table-header">💡 life_advice <span class="tbl-name">life_advice</span> <span class="tbl-rel">FK → users(user_id)</span></div>
+        <table>
+            <thead><tr><th>字段名</th><th>类型</th><th>允许空</th><th>键/属性</th><th>说明</th></tr></thead>
+            <tbody>
+                <tr><td>id</td><td>INTEGER</td><td>❌</td><td><span class="badge badge-pk">PK</span> <span class="badge badge-ai">自增</span></td><td>建议 ID</td></tr>
+                <tr><td>user_id</td><td>INTEGER</td><td>❌</td><td><span class="badge badge-fk">FK → users(user_id)</span></td><td>所属用户 ID</td></tr>
+                <tr><td>title</td><td>TEXT(255)</td><td>✅</td><td>—</td><td>建议标题（如：血糖监测全攻略）</td></tr>
+                <tr><td>tags</td><td>TEXT(255)</td><td>✅</td><td>—</td><td>标签（逗号分隔，如：血糖监测,糖尿病管理）</td></tr>
+                <tr><td>content</td><td>TEXT(65535)</td><td>✅</td><td>—</td><td>建议详细内容（长文本，最大 65535 字符）</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ==================== 模块四：医疗与药品 ==================== -->
+    <div class="section-title">四、医疗与药品模块</div>
+    <div class="section-desc">管理医生信息、聊天授权及用户服药记录 &nbsp;|&nbsp; 接口：<code>fetchSQLWorkflow("获取医生列表")</code> / <code>fetchChatflow(..., doctor.chat_token)</code></div>
+
+    <div class="table-wrapper">
+        <div class="table-header">👨‍⚕️ doctor_information <span class="tbl-name">doctor_information</span></div>
+        <table>
+            <thead><tr><th>字段名</th><th>类型</th><th>允许空</th><th>键/属性</th><th>说明</th></tr></thead>
+            <tbody>
+                <tr><td>info_id</td><td>INTEGER</td><td>❌</td><td><span class="badge badge-pk">PK</span> <span class="badge badge-ai">自增</span></td><td>医生 ID</td></tr>
+                <tr><td>doctor_name</td><td>TEXT</td><td>❌</td><td>—</td><td>医生姓名</td></tr>
+                <tr><td>department</td><td>TEXT</td><td>✅</td><td>—</td><td>科室（如：内分泌科）</td></tr>
+                <tr><td>title</td><td>TEXT</td><td>✅</td><td>—</td><td>职称（主任医师 / 副主任医师 / 主治医师）</td></tr>
+                <tr><td>introduction</td><td>TEXT</td><td>✅</td><td>—</td><td>医生简介与专长描述</td></tr>
+                <tr><td>image_url</td><td>TEXT</td><td>✅</td><td>—</td><td>医生头像地址（如 /img/doc1.png）</td></tr>
+                <tr><td>chat_token</td><td>TEXT</td><td>✅</td><td>—</td><td>聊天授权 Token（Bearer），前端存 localStorage.currentDoctor 后传入 fetchChatflow</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-wrapper">
+        <div class="table-header">💊 medication_records <span class="tbl-name">medication_records</span></div>
+        <table>
+            <thead><tr><th>字段名</th><th>类型</th><th>允许空</th><th>键/属性</th><th>说明</th></tr></thead>
+            <tbody>
+                <tr><td>id</td><td>INTEGER</td><td>❌</td><td><span class="badge badge-pk">PK</span> <span class="badge badge-ai">自增</span></td><td>服药记录 ID</td></tr>
+                <tr><td>user_id</td><td>TEXT</td><td>❌</td><td>—</td><td>用户 ID（注意：此处为 TEXT 类型，与其他表 INTEGER 不一致）</td></tr>
+                <tr><td>medication_time</td><td>TEXT</td><td>❌</td><td>—</td><td>服药时间</td></tr>
+                <tr><td>drug_name</td><td>TEXT</td><td>❌</td><td>—</td><td>药品名称</td></tr>
+                <tr><td>dosage</td><td>TEXT</td><td>❌</td><td>—</td><td>剂量（如：500mg / 1片）</td></tr>
+                <tr><td>frequency</td><td>TEXT</td><td>❌</td><td>—</td><td>服药频次（如：每日3次 / 餐前服用）</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ==================== 模块五：糖尿病知识与检查 ==================== -->
+    <div class="section-title">五、糖尿病知识与检查模块</div>
+    <div class="section-desc">糖尿病类型知识库、检查主记录及用户体征签到记录 &nbsp;|&nbsp; 接口：<code>fetchSQLWorkflow("获取糖尿病类型")</code> / <code>fetchSQLWorkflow("查询id为…的糖尿病类型信息")</code></div>
+
+    <div class="table-wrapper">
+        <div class="table-header">🧬 diabetes_types <span class="tbl-name">diabetes_types</span> <span class="tbl-rel">独立知识表，无外键关联</span></div>
+        <table>
+            <thead><tr><th>字段名</th><th>类型</th><th>允许空</th><th>键/属性</th><th>说明</th></tr></thead>
+            <tbody>
+                <tr><td>type_id</td><td>INTEGER</td><td>❌</td><td><span class="badge badge-pk">PK</span> <span class="badge badge-ai">自增</span></td><td>糖尿病类型 ID，URL 参数 id 即此字段</td></tr>
+                <tr><td>type_name</td><td>TEXT</td><td>❌</td><td>—</td><td>类型名称（1型糖尿病 / 2型糖尿病 / 妊娠期糖尿病 / 特殊类型糖尿病）</td></tr>
+                <tr><td>img</td><td>TEXT</td><td>✅</td><td>—</td><td>配图地址（如 /img/t1.jpg）</td></tr>
+                <tr><td>pathogenesis</td><td>TEXT</td><td>✅</td><td>—</td><td>发病机制说明（免疫系统攻击β细胞等）</td></tr>
+                <tr><td>manifestation</td><td>TEXT</td><td>✅</td><td>—</td><td>临床表现（三多一少症状等）</td></tr>
+                <tr><td>treatment</td><td>TEXT</td><td>✅</td><td>—</td><td>治疗方案（胰岛素治疗 / 生活方式干预等）</td></tr>
+                <tr><td>overview</td><td>TEXT</td><td>✅</td><td>—</td><td>概述（当前数据均为 NULL，预留字段）</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-wrapper">
+        <div class="table-header">🩺 check_records <span class="tbl-name">check_records</span></div>
+        <table>
+            <thead><tr><th>字段名</th><th>类型</th><th>允许空</th><th>键/属性</th><th>说明</th></tr></thead>
+            <tbody>
+                <tr><td>id</td><td>INTEGER</td><td>❌</td><td><span class="badge badge-pk">PK</span> <span class="badge badge-ai">自增</span></td><td>检查记录 ID</td></tr>
+                <tr><td>check_id</td><td>TEXT</td><td>❌</td><td>—</td><td>检查编号（业务编号，非自增）</td></tr>
+                <tr><td>check_time</td><td>TEXT</td><td>❌</td><td>—</td><td>检查时间</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-wrapper">
+        <div class="table-header">📝 check_in_records <span class="tbl-name">check_in_records</span> <span class="tbl-rel">FK → users(user_id)</span></div>
+        <table>
+            <thead><tr><th>字段名</th><th>类型</th><th>允许空</th><th>键/属性</th><th>说明</th></tr></thead>
+            <tbody>
+                <tr><td>record_id</td><td>INTEGER</td><td>❌</td><td><span class="badge badge-pk">PK</span> <span class="badge badge-ai">自增</span></td><td>签到记录 ID</td></tr>
+                <tr><td>user_id</td><td>INTEGER</td><td>✅</td><td><span class="badge badge-fk">FK → users(user_id)</span></td><td>用户 ID</td></tr>
+                <tr><td>check_in_time</td><td>TEXT</td><td>❌</td><td>—</td><td>签到时间（格式：YYYY-MM-DD）</td></tr>
+                <tr><td>check_in_type</td><td>TEXT</td><td>✅</td><td>—</td><td>签到类型（如：血糖 / 血压 / 体重）</td></tr>
+                <tr><td>value</td><td>TEXT</td><td>✅</td><td>—</td><td>测量数值（统一以 TEXT 存储，前端自行解析）</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ==================== ER 关系图 ==================== -->
+    <div class="er-section">
+        <div class="section-title">ER 实体关系图</div>
+        <div class="section-desc">展示各数据表之间的外键关联关系（users 为核心实体）</div>
+
+        <div class="er-container">
+            <div class="er-diagram">
+
+                <!-- users 核心 -->
+                <div class="er-entity" style="border-color:#e94560;min-width:220px;">
+                    <div class="er-entity-header" style="background:#e94560;">👤 users（核心实体）</div>
+                    <div class="er-entity-body">
+                        <div class="er-field pk-field">★ user_id <span class="badge badge-pk" style="font-size:10px">PK 自增</span></div>
+                        <div class="er-field">username <span class="badge badge-uniq" style="font-size:10px">唯一</span></div>
+                        <div class="er-field">password</div>
+                        <div class="er-field">avatar_url</div>
+                    </div>
+                </div>
+
+                <!-- user_risk_info -->
+                <div class="er-entity">
+                    <div class="er-entity-header">📊 user_risk_info</div>
+                    <div class="er-entity-header sub">1:1 扩展</div>
+                    <div class="er-entity-body">
+                        <div class="er-field pk-field">★ userId <span class="badge badge-pk" style="font-size:10px">PK+FK</span></div>
+                        <div class="er-field">age / sex / height</div>
+                        <div class="er-field">weight / waistline</div>
+                        <div class="er-field">message / disease</div>
+                    </div>
+                </div>
+
+                <!-- punch_in -->
+                <div class="er-entity">
+                    <div class="er-entity-header">✅ punch_in</div>
+                    <div class="er-entity-header sub">1:N 打卡记录</div>
+                    <div class="er-entity-body">
+                        <div class="er-field fk-field">user_id <span class="badge badge-fk" style="font-size:10px">FK</span></div>
+                        <div class="er-field">punch_time / type</div>
+                        <div class="er-field">completion_status</div>
+                    </div>
+                </div>
+
+                <!-- life_plans -->
+                <div class="er-entity">
+                    <div class="er-entity-header">📋 life_plans</div>
+                    <div class="er-entity-header sub">1:N 生活计划</div>
+                    <div class="er-entity-body">
+                        <div class="er-field">id <span class="badge badge-pk" style="font-size:10px">PK</span></div>
+                        <div class="er-field fk-field">user_id <span class="badge badge-fk" style="font-size:10px">FK</span></div>
+                        <div class="er-field">type / title / time</div>
+                        <div class="er-field">content</div>
+                    </div>
+                </div>
+
+                <!-- life_advice -->
+                <div class="er-entity">
+                    <div class="er-entity-header">💡 life_advice</div>
+                    <div class="er-entity-header sub">1:N 健康建议</div>
+                    <div class="er-entity-body">
+                        <div class="er-field">id <span class="badge badge-pk" style="font-size:10px">PK</span></div>
+                        <div class="er-field fk-field">user_id <span class="badge badge-fk" style="font-size:10px">FK</span></div>
+                        <div class="er-field">title / tags</div>
+                        <div class="er-field">content（长文本）</div>
+                    </div>
+                </div>
+
+                <!-- check_in_records -->
+                <div class="er-entity">
+                    <div class="er-entity-header">📝 check_in_records</div>
+                    <div class="er-entity-header sub">1:N 体征签到</div>
+                    <div class="er-entity-body">
+                        <div class="er-field">record_id <span class="badge badge-pk" style="font-size:10px">PK</span></div>
+                        <div class="er-field fk-field">user_id <span class="badge badge-fk" style="font-size:10px">FK</span></div>
+                        <div class="er-field">check_in_type / value</div>
+                    </div>
+                </div>
+
+                <!-- articles -->
+                <div class="er-entity">
+                    <div class="er-entity-header">📰 articles</div>
+                    <div class="er-entity-header sub">独立 + 被收藏</div>
+                    <div class="er-entity-body">
+                        <div class="er-field pk-field">★ article_id <span class="badge badge-pk" style="font-size:10px">PK</span></div>
+                        <div class="er-field">title / author</div>
+                        <div class="er-field">content / category</div>
+                        <div class="er-field">views（默认0）</div>
+                    </div>
+                </div>
+
+                <!-- article_collections -->
+                <div class="er-entity">
+                    <div class="er-entity-header">⭐ article_collections</div>
+                    <div class="er-entity-header sub">多对多关联表</div>
+                    <div class="er-entity-body">
+                        <div class="er-field">collection_id <span class="badge badge-pk" style="font-size:10px">PK</span></div>
+                        <div class="er-field fk-field">user_id <span class="badge badge-fk" style="font-size:10px">FK→users</span></div>
+                        <div class="er-field fk-field">article_id <span class="badge badge-fk" style="font-size:10px">FK→articles</span></div>
+                    </div>
+                </div>
+
+                <!-- medication_records -->
+                <div class="er-entity">
+                    <div class="er-entity-header">💊 medication_records</div>
+                    <div class="er-entity-header sub">独立实体</div>
+                    <div class="er-entity-body">
+                        <div class="er-field">id <span class="badge badge-pk" style="font-size:10px">PK</span></div>
+                        <div class="er-field">user_id（TEXT 类型⚠️）</div>
+                        <div class="er-field">drug_name / dosage</div>
+                        <div class="er-field">medication_time</div>
+                    </div>
+                </div>
+
+                <!-- slides -->
+                <div class="er-entity">
+                    <div class="er-entity-header">🖼️ slides</div>
+                    <div class="er-entity-header sub">独立配置表</div>
+                    <div class="er-entity-body">
+                        <div class="er-field">slide_id <span class="badge badge-pk" style="font-size:10px">PK</span></div>
+                        <div class="er-field">image_url / link_url</div>
+                        <div class="er-field">isTop（0/1）</div>
+                    </div>
+                </div>
+
+                <!-- doctor_information -->
+                <div class="er-entity">
+                    <div class="er-entity-header">👨‍⚕️ doctor_information</div>
+                    <div class="er-entity-header sub">独立 + 聊天集成</div>
+                    <div class="er-entity-body">
+                        <div class="er-field">info_id <span class="badge badge-pk" style="font-size:10px">PK</span></div>
+                        <div class="er-field">doctor_name / title</div>
+                        <div class="er-field">chat_token（Bearer）</div>
+                    </div>
+                </div>
+
+                <!-- diabetes_types -->
+                <div class="er-entity">
+                    <div class="er-entity-header">🧬 diabetes_types</div>
+                    <div class="er-entity-header sub" style="background:#e94560;">⚠️ 无外键关联</div>
+                    <div class="er-entity-body">
+                        <div class="er-field">type_id <span class="badge badge-pk" style="font-size:10px">PK</span></div>
+                        <div class="er-field">type_name（4种类型）</div>
+                        <div class="er-field">pathogenesis / treatment</div>
+                    </div>
+                </div>
+
+                <!-- check_records -->
+                <div class="er-entity">
+                    <div class="er-entity-header">🩺 check_records</div>
+                    <div class="er-entity-header sub">独立记录表</div>
+                    <div class="er-entity-body">
+                        <div class="er-field">id <span class="badge badge-pk" style="font-size:10px">PK</span></div>
+                        <div class="er-field">check_id / check_time</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 关系列表 -->
+            <div class="er-relations">
+                <div class="er-rel-title">🔗 外键关联关系一览</div>
+
+                <div class="er-rel-item">
+                    <span class="er-rel-from">users</span>
+                    <span class="er-rel-arrow">1 ──→ 1</span>
+                    <span class="er-rel-to">user_risk_info</span>
+                    <span class="er-rel-label">user_id → userId（一对一扩展，主键即外键）</span>
+                </div>
+                <div class="er-rel-item">
+                    <span class="er-rel-from">users</span>
+                    <span class="er-rel-arrow">1 ──→ ∞</span>
+                    <span class="er-rel-to">punch_in</span>
+                    <span class="er-rel-label">user_id 外键（每日打卡记录）</span>
+                </div>
+                <div class="er-rel-item">
+                    <span class="er-rel-from">users</span>
+                    <span class="er-rel-arrow">1 ──→ ∞</span>
+                    <span class="er-rel-to">life_plans</span>
+                    <span class="er-rel-label">user_id 外键（个性化生活计划）</span>
+                </div>
+                <div class="er-rel-item">
+                    <span class="er-rel-from">users</span>
+                    <span class="er-rel-arrow">1 ──→ ∞</span>
+                    <span class="er-rel-to">life_advice</span>
+                    <span class="er-rel-label">user_id 外键（AI 生成健康建议）</span>
+                </div>
+                <div class="er-rel-item">
+                    <span class="er-rel-from">users</span>
+                    <span class="er-rel-arrow">1 ──→ ∞</span>
+                    <span class="er-rel-to">check_in_records</span>
+                    <span class="er-rel-label">user_id 外键（体征签到记录）</span>
+                </div>
+                <div class="er-rel-item">
+                    <span class="er-rel-from">users</span>
+                    <span class="er-rel-arrow">1 ──→ ∞</span>
+                    <span class="er-rel-to">article_collections</span>
+                    <span class="er-rel-label">user_id 外键（用户收藏关系）</span>
+                </div>
+                <div class="er-rel-item">
+                    <span class="er-rel-from">articles</span>
+                    <span class="er-rel-arrow">1 ──→ ∞</span>
+                    <span class="er-rel-to">article_collections</span>
+                    <span class="er-rel-label">article_id 外键（文章被收藏关系）</span>
+                </div>
+            </div>
+
+            <!-- 图例 -->
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#e94560;"></div>主键 PK</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#2d3a8c;"></div>外键 FK</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#1b7a1b;"></div>自增</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#e68900;"></div>唯一约束</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#7b2d8e;"></div>CHECK 约束</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#0c7cd5;"></div>默认值</div>
+            </div>
+        </div>
+    </div>
+
+    <p style="text-align:center;color:#bbb;font-size:11px;margin-top:48px;">— 糖尿病预治智能助手 · 数据库数据字典 · 由元宝 AI 自动生成 —</p>
+
+</div>
+</body>
+</html>

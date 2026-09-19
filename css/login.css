@@ -1,0 +1,49 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* 按钮点击反馈 */
+button:active {
+    transform: scale(0.96);
+    transition: transform 0.1s ease;
+}
+
+/* 登录注册按钮加载状态 */
+.btn-loading {
+    pointer-events: none;
+    opacity: 0.8;
+    position: relative;
+}
+
+.btn-loading::after {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: btn-spin 0.6s linear infinite;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+@keyframes btn-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Tab切换点击反馈 */
+#loginTab:active, #registerTab:active {
+    opacity: 0.7;
+    transition: opacity 0.1s;
+}

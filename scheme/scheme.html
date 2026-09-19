@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>生活方案</title>
+  <script src="/js/tailwindcss.js"></script>
+  <script src="/js/sweetalert2.all.min.js"></script>
+  <link rel="stylesheet" href="/css/all.min.css">
+  <link rel="stylesheet" href="/css/loading.css">
+  <link rel="stylesheet" href="scheme.css">
+</head>
+<body class="bg-[#F8FAFC] min-h-screen">
+  <div class="w-full max-w-screen-sm mx-auto bg-[#F8FAFC] min-h-screen safe-top">
+    <!-- 导航栏 -->
+    <div class="sticky top-0 bg-white shadow-sm z-50 px-4 h-14 flex items-center justify-between">
+      <button onclick="window.history.back()" class="w-10 h-10 flex items-center justify-center hover:bg-gray-100 rounded-xl transition-colors">
+        <i class="fas fa-arrow-left text-gray-600"></i>
+      </button>
+      <h1 class="text-lg font-bold">生活方案</h1>
+      <button onclick="adjustmentScheme()" class="text-sm font-medium text-[#3261FF] hover:bg-blue-50 px-3 py-1.5 rounded-lg transition-colors">
+        调整方案
+      </button>
+    </div>
+
+    <!-- 主内容 -->
+    <div class="pt-4 pb-24 px-4">
+      <!-- 打卡记录入口 -->
+      <a href="/checkcard/checkcardList.html" class="block mb-6 bg-gradient-to-r from-[#304FFF] to-[#4B6AFF] rounded-xl p-4 text-white shadow-md hover:shadow-lg transition-shadow">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-base font-bold">打卡记录</h3>
+            <p class="text-xs opacity-80 mt-1">查看历史打卡数据与AI分析</p>
+          </div>
+          <i class="fas fa-chevron-right text-white/80"></i>
+        </div>
+      </a>
+
+      <!-- 饮食管理区块 -->
+      <div class="main_item flex items-center justify-between mb-4">
+        <div>
+          <h3 class="text-base sm:text-lg font-medium">饮食管理</h3>
+          <p class="text-sm opacity-80">定制专属饮食计划</p>
+        </div>
+        <button id="eatBtn" class="px-4 py-1.5 text-xs bg-white text-[#3261FF] font-medium rounded-lg shadow-sm hover:shadow-md transition-shadow active:scale-95" onclick="checkIn('饮食')">
+          打卡
+        </button>
+      </div>
+      <div id="eat" class="space-y-2.5 mb-6"></div>
+
+      <!-- 运动管理区块 -->
+      <div class="main_item flex items-center justify-between mb-4">
+        <div>
+          <h3 class="text-base sm:text-lg font-medium">运动管理</h3>
+          <p class="text-sm opacity-80">科学运动指导</p>
+        </div>
+        <button id="sportBtn" class="px-4 py-1.5 text-xs bg-white text-[#3261FF] font-medium rounded-lg shadow-sm hover:shadow-md transition-shadow active:scale-95" onclick="checkIn('运动')">
+          打卡
+        </button>
+      </div>
+      <div id="sport" class="space-y-2.5"></div>
+    </div>
+  </div>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/user.js"></script>
+  <script src="/js/loading.js"></script>
+  <script src="/js/showAlert.js"></script>
+  <script src="scheme.js"></script>
+</body>
+</html>

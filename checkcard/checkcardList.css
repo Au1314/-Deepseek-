@@ -1,0 +1,64 @@
+.card {
+  background-image: url('/img/card_bg.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.btn {
+  background-color: #D6DCFF;
+  color: #304FFF;
+  padding: 6px 18px;
+  border-radius: 18px;
+  margin-right: 10px;
+  font-size: small;
+  white-space: nowrap;
+}
+
+.show-text {
+  background-color: #EEF0FF;
+  color: #304FFF;
+  padding: 8px 18px;
+  border-radius: 5px;
+  margin-top: 16px;
+  font-size: 12px;
+}
+
+.date-item.active {
+  background-color: #304FFF;
+  color: white;
+}
+
+.date-item {
+  min-width: 75px;
+  padding: 10px 6px !important;
+  line-height: 1.4;
+}
+
+.date-item span:first-child {
+  font-size: 11px;
+  margin-bottom: 3px;
+  display: block;
+}
+
+.date-item span:last-child {
+  font-weight: 600;
+  font-size: 14px;
+  display: block;
+}
+
+.date-item.active span:first-child {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.date-item.active span:last-child {
+  color: white !important;
+}
+
+/* 隐藏滚动条 */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

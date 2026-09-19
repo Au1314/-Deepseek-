@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>糖尿病健康资讯</title>
+    <script src="/js/tailwindcss.js"></script>
+    <script src="/js/config.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/user.js"></script>
+    <script src="/js/loading.js"></script>
+    <script src="lifeAdvice.js"></script>
+    <script src="/js/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/loading.css">
+    <link rel="stylesheet" href="lifeAdvice.css">
+</head>
+
+<body class="w-full min-h-screen bg-gray-50">
+    <!-- 顶部导航栏 -->
+    <nav class="sticky top-0 w-full bg-white shadow-sm z-50 px-4 h-14 flex items-center justify-between safe-top">
+        <button class="flex items-center !rounded-button">
+        </button>
+        <h1 class="text-lg font-bold">健康资讯</h1>
+        <button class="flex items-center !rounded-button text-primary" onclick="adjustmentScheme()"
+            style="color:#3261FF ;">
+        </button>
+    </nav>
+    <main class="pt-4 pb-20 px-4">
+        <div class="bg-white rounded-lg shadow-sm p-4 mb-4 card">
+            <div class="flex items-center mb-3">
+                <img src="/img/la1.png" class="w-[41px] h-[31px]  mr-3 ml-3" />
+                <div class="flex-1">
+                    <h3 class="text-lg font-medium mb-1">饮食指导</h3>
+                    <p class="text-sm text-gray-600">合理搭配饮食，控制血糖水平</p>
+                </div>
+                <i class="fas fa-chevron-right text-gray-400"></i>
+            </div>
+            <div class="border-b border-dashed border-gray-300 mb-3"></div>
+            <div id="eatTag" class="flex flex-wrap gap-2">
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-sm p-4 mb-4 card">
+            <div class="flex items-center mb-3">
+                <img src="/img/la2.png" class="w-[41px] h-[31px]  mr-3 ml-3" />
+                <div class="flex-1">
+                    <h3 class="text-lg font-medium mb-1">运动指南</h3>
+                    <p class="text-sm text-gray-600">适度运动，增强体质</p>
+                </div>
+                <i class="fas fa-chevron-right text-gray-400"></i>
+            </div>
+            <div class="border-b border-dashed border-gray-300 mb-3"></div>
+            <div id="sportTag" class="flex flex-wrap gap-2">
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-sm p-4 mb-4 card">
+            <div class="flex items-center mb-3">
+                <img src="/img/la3.png" class="w-[41px] h-[31px]  mr-3 ml-3" />
+                <div class="flex-1">
+                    <h3 class="text-lg font-medium mb-1">日常习惯</h3>
+                    <p class="text-sm text-gray-600">养成健康生活方式</p>
+                </div>
+                <i class="fas fa-chevron-right text-gray-400"></i>
+            </div>
+            <div id="dailyCard" class="grid grid-cols-2 gap-3">
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-sm p-4">
+            <div class="flex items-center mb-3">
+                <img src="/img/la4.png" class="w-[41px] h-[31px]  mr-3 ml-3" />
+                <div class="flex-1">
+                    <h3 class="text-lg font-medium mb-1">糖尿病科普</h3>
+                    <p class="text-sm text-gray-600">了解糖尿病相关知识</p>
+                </div>
+                <i class="fas fa-chevron-right text-gray-400"></i>
+            </div>
+            <div id="popularizationCard" class="grid grid-cols-2 gap-3">
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
