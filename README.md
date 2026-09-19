@@ -133,6 +133,7 @@ diabetesAssistant/
 ├── userinfo/                   # 个人信息管理
 ├── videos/                     # 功能演示视频
 ├── screenshots/                # 界面截图
+├── docs/                       # 项目文档（设计文档 / 开发文档 / 实习总结 / 前端规划 / 测试 / 原型图）
 └── knowledge-base/             # 项目知识库（知识文档 / Dify 工作流 / 数据库）
 ```
 

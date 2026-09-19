@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 糖尿病管理助手</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128150;</text></svg>">
+    <script src="/js/tailwindcss.js"></script>
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+
+<body class="bg-gray-50">
+    <div class="min-h-screen flex flex-col items-center justify-center px-4">
+        <div class="w-full max-w-[375px] bg-white rounded-xl shadow-lg p-8">
+            
+            <!-- Logo -->
+            <div class="flex justify-center mb-8">
+                <img src="/img/logo.png" alt="Logo" width="100" height="100">
+            </div>
+            
+            <!-- Tab切换栏 -->
+            <div class="flex mb-6">
+                <button class="flex-1 py-2 text-center text-primary border-b-2 border-primary" id="loginTab">登录</button>
+                <button class="flex-1 py-2 text-center text-gray-400 border-b-2 border-gray-200" id="registerTab">注册</button>
+            </div>
+            
+            <!-- 登录表单 -->
+            <div id="loginContent" class="tab-content active">
+                <!-- 用户名输入框 -->
+                <div class="mb-4">
+                    <div class="relative">
+                        <i class="fas fa-user absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input id="username" type="text" placeholder="请输入用户名"
+                            class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-button focus:outline-none focus:border-primary">
+                    </div>
+                </div>
+                <!-- 密码输入框 -->
+                <div class="mb-4">
+                    <div class="relative">
+                        <i class="fas fa-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input id="password" type="password" placeholder="请输入密码"
+                            class="w-full pl-10 pr-10 py-3 border border-gray-200 rounded-button focus:outline-none focus:border-primary">
+                        <i class="fas fa-eye absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"></i>
+                    </div>
+                </div>
+                <!-- 记住密码 + 忘记密码 -->
+                <div class="flex items-center mb-6">
+                    <label class="flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only">
+                        <div class="w-4 h-4 border border-gray-300 rounded-sm"></div>
+                        <span class="ml-2 text-sm text-gray-600">记住密码</span>
+                    </label>
+                    <a href="#" class="ml-auto text-sm text-primary">忘记密码？</a>
+                </div>
+                <!-- 登录按钮 -->
+                <button class="w-full py-3 bg-primary text-white rounded-button mb-6" onclick="login()">登录</button>
+            </div>
+            
+            <!-- 注册表单 -->
+            <div id="registerContent" class="tab-content">
+                <!-- 用户名输入框 -->
+                <div class="mb-4">
+                    <div class="relative">
+                        <i class="fas fa-user absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input id="regUsername" type="text" placeholder="请输入用户名"
+                            class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-button focus:outline-none focus:border-primary">
+                    </div>
+                </div>
+                <!-- 密码输入框 -->
+                <div class="mb-4">
+                    <div class="relative">
+                        <i class="fas fa-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input id="regPassword" type="password" placeholder="请设置密码"
+                            class="w-full pl-10 pr-10 py-3 border border-gray-200 rounded-button focus:outline-none focus:border-primary">
+                        <i class="fas fa-eye absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"></i>
+                    </div>
+                </div>
+                <!-- 确认密码输入框 -->
+                <div class="mb-4">
+                    <div class="relative">
+                        <i class="fas fa-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input id="secPassword" type="password" placeholder="请确认密码"
+                            class="w-full pl-10 pr-10 py-3 border border-gray-200 rounded-button focus:outline-none focus:border-primary">
+                        <i class="fas fa-eye absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"></i>
+                    </div>
+                </div>
+                <!-- 注册按钮 -->
+                <button class="w-full py-3 bg-primary text-white rounded-button mb-6" onclick="register()">注册</button>
+            </div>
+            
+            <!-- 底部协议 -->
+            <div class="text-center text-xs text-gray-400">
+                登录即表示同意 <a href="#" class="text-primary">用户协议</a> 和 <a href="#" class="text-primary">隐私政策</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/tailwindcss.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/showAlert.js"></script>
+    <script src="/js/login.js"></script>
+</body>
+
+</html>

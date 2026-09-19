@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTTP 协议说明 —— 前端提交数据到 Dify 工作流后端</title>
+<style>
+  :root {
+    --bg: #FAFAF8;
+    --surface: #FFFFFF;
+    --border: #E3E1D9;
+    --text: #2C2C2A;
+    --text-secondary: #5F5E5A;
+    --blue-fill: #E6F1FB;
+    --blue-stroke: #185FA5;
+    --blue-text: #0C447C;
+    --coral-fill: #FAECE7;
+    --coral-stroke: #993C1D;
+    --coral-text: #712B13;
+    --amber-fill: #FAEEDA;
+    --amber-stroke: #854F0B;
+    --amber-text: #633806;
+    --green-fill: #EAF3DE;
+    --green-stroke: #3B6D11;
+    --green-text: #27500A;
+    --red-fill: #FCEBEB;
+    --red-stroke: #A32D2D;
+    --red-text: #791F1F;
+    --radius: 10px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+    line-height: 1.75;
+  }
+  .wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 56px 24px 100px;
+  }
+  h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
+  .subtitle {
+    color: var(--text-secondary);
+    font-size: 15px;
+    margin: 0 0 48px;
+  }
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 56px 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  h2 .num {
+    display: inline-block;
+    color: var(--text-secondary);
+    font-weight: 400;
+    margin-right: 6px;
+  }
+  p { font-size: 15.5px; margin: 0 0 16px; }
+  ul { margin: 0 0 16px; padding-left: 22px; }
+  li { font-size: 15.5px; margin-bottom: 8px; }
+  code {
+    font-family: "SF Mono", Consolas, Monaco, monospace;
+    background: #F1EFE8;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13.5px;
+    color: var(--coral-text);
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    margin: 24px 0;
+  }
+  .card svg { display: block; width: 100%; height: auto; }
+  .callout {
+    background: var(--blue-fill);
+    border-left: 3px solid var(--blue-stroke);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 14px 18px;
+    margin: 20px 0;
+    font-size: 14.5px;
+    color: var(--blue-text);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 14.5px;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  th { color: var(--text-secondary); font-weight: 500; }
+  .badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .badge-green { background: var(--green-fill); color: var(--green-text); }
+  .badge-amber { background: var(--amber-fill); color: var(--amber-text); }
+  .badge-red   { background: var(--red-fill);   color: var(--red-text); }
+  .badge-blue  { background: var(--blue-fill);  color: var(--blue-text); }
+  footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>HTTP 协议说明</h1>
+  <p class="subtitle">前台提交数据 → JSON 格式 → 后端（以 Dify 工作流为例）· 面向零基础读者</p>
+
+  <!-- 1 -->
+  <h2><span class="num">1.</span>最基本的通信模型</h2>
+  <p>HTTP 就是浏览器（客户端）和服务器之间「一问一答」的通信规则。你在网页上点一个按钮、刷新一个页面，背后都是浏览器发出一个「请求」，服务器处理后返回「响应」，浏览器拿到结果渲染给你看。</p>
+
+  <div class="card">
+    <svg viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+      <rect x="60" y="70" width="180" height="60" rx="10" fill="var(--blue-fill)" stroke="var(--blue-stroke)" stroke-width="1"/>
+      <text x="150" y="94" text-anchor="middle" font-size="14" font-weight="600" fill="var(--blue-text)">浏览器 / App</text>
+      <text x="150" y="114" text-anchor="middle" font-size="12" fill="var(--blue-text)">客户端（Client）</text>
+
+      <rect x="440" y="70" width="180" height="60" rx="10" fill="var(--coral-fill)" stroke="var(--coral-stroke)" stroke-width="1"/>
+      <text x="530" y="94" text-anchor="middle" font-size="14" font-weight="600" fill="var(--coral-text)">服务器</text>
+      <text x="530" y="114" text-anchor="middle" font-size="12" fill="var(--coral-text)">服务端（Server）</text>
+
+      <text x="340" y="78" text-anchor="middle" font-size="12" fill="var(--text-secondary)">① 请求 Request：我要什么</text>
+      <line x1="240" y1="90" x2="438" y2="90" stroke="var(--blue-stroke)" stroke-width="1.5" marker-end="url(#a1)"/>
+
+      <line x1="438" y1="120" x2="240" y2="120" stroke="var(--text-secondary)" stroke-width="1.5" marker-end="url(#a1)"/>
+      <text x="340" y="140" text-anchor="middle" font-size="12" fill="var(--text-secondary)">② 响应 Response：给你结果</text>
+
+      <text x="340" y="180" text-anchor="middle" font-size="12" fill="var(--text-secondary)">HTTP 就是双方约定好的「打招呼规则」：</text>
+      <text x="340" y="198" text-anchor="middle" font-size="12" fill="var(--text-secondary)">一次请求，对应一次响应</text>
+    </svg>
+  </div>
+
+  <!-- 2 -->
+  <h2><span class="num">2.</span>请求与响应的组成结构</h2>
+  <p>请求和响应的结构是对称的，都是「第一行说明情况 + 头部附加信息 + 空行 + 正文数据」：</p>
+  <ul>
+    <li><strong>请求行 / 状态行</strong>：请求行说「我要做什么」（如 <code>POST /v1/workflows/run</code>）；状态行说「结果怎么样」（如 <code>200 OK</code> 表示成功）。</li>
+    <li><strong>Headers（头部）</strong>：附加说明信息，比如数据格式、身份验证，用户看不到，是「幕后」信息。</li>
+    <li><strong>空行</strong>：分隔符，告诉对方「头部说完了，接下来是正文」。</li>
+    <li><strong>Body（正文）</strong>：真正要传输的数据内容。</li>
+  </ul>
+
+  <div class="card">
+    <svg viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="10" width="300" height="300" rx="16" fill="var(--blue-fill)" stroke="var(--blue-stroke)" stroke-width="1"/>
+      <text x="42" y="38" font-size="14" font-weight="600" fill="var(--blue-text)">请求 Request（客户端发出）</text>
+
+      <rect x="42" y="56" width="256" height="46" rx="8" fill="#fff" stroke="var(--border)"/>
+      <text x="170" y="74" text-anchor="middle" font-size="12" fill="var(--text-secondary)">请求行</text>
+      <text x="170" y="91" text-anchor="middle" font-size="12" fill="var(--text)">POST /v1/workflows/run</text>
+
+      <rect x="42" y="112" width="256" height="66" rx="8" fill="#fff" stroke="var(--border)"/>
+      <text x="170" y="129" text-anchor="middle" font-size="12" fill="var(--text-secondary)">请求头 Headers</text>
+      <text x="170" y="146" text-anchor="middle" font-size="12" fill="var(--text)">Content-Type: json</text>
+      <text x="170" y="163" text-anchor="middle" font-size="12" fill="var(--text)">Authorization: ...</text>
+
+      <text x="170" y="200" text-anchor="middle" font-size="12" fill="var(--text-secondary)">— 空行分隔 —</text>
+
+      <rect x="42" y="216" width="256" height="50" rx="8" fill="#fff" stroke="var(--border)"/>
+      <text x="170" y="233" text-anchor="middle" font-size="12" fill="var(--text-secondary)">请求体 Body</text>
+      <text x="170" y="250" text-anchor="middle" font-size="12" fill="var(--text)">{ "inputs": {...} }</text>
+
+      <rect x="360" y="10" width="300" height="300" rx="16" fill="var(--coral-fill)" stroke="var(--coral-stroke)" stroke-width="1"/>
+      <text x="382" y="38" font-size="14" font-weight="600" fill="var(--coral-text)">响应 Response（服务器返回）</text>
+
+      <rect x="382" y="56" width="256" height="46" rx="8" fill="#fff" stroke="var(--border)"/>
+      <text x="510" y="74" text-anchor="middle" font-size="12" fill="var(--text-secondary)">状态行</text>
+      <text x="510" y="91" text-anchor="middle" font-size="12" fill="var(--text)">HTTP/1.1 200 OK</text>
+
+      <rect x="382" y="112" width="256" height="66" rx="8" fill="#fff" stroke="var(--border)"/>
+      <text x="510" y="129" text-anchor="middle" font-size="12" fill="var(--text-secondary)">响应头 Headers</text>
+      <text x="510" y="146" text-anchor="middle" font-size="12" fill="var(--text)">Content-Type: json</text>
+      <text x="510" y="163" text-anchor="middle" font-size="12" fill="var(--text)">Date: ...</text>
+
+      <text x="510" y="200" text-anchor="middle" font-size="12" fill="var(--text-secondary)">— 空行分隔 —</text>
+
+      <rect x="382" y="216" width="256" height="50" rx="8" fill="#fff" stroke="var(--border)"/>
+      <text x="510" y="233" text-anchor="middle" font-size="12" fill="var(--text-secondary)">响应体 Body</text>
+      <text x="510" y="250" text-anchor="middle" font-size="12" fill="var(--text)">{ "result": "..." }</text>
+    </svg>
+  </div>
+
+  <!-- 3 -->
+  <h2><span class="num">3.</span>常见请求方法与状态码</h2>
+  <p>请求方法放在请求行里，说明这次通信「想干嘛」：</p>
+  <table>
+    <tr><th>方法</th><th>作用</th><th>举例</th></tr>
+    <tr><td><code>GET</code></td><td>向服务器「要」数据</td><td>打开一个网页</td></tr>
+    <tr><td><code>POST</code></td><td>向服务器「提交」数据</td><td>登录、发起工作流</td></tr>
+    <tr><td><code>PUT</code></td><td>更新已有数据</td><td>修改用户资料</td></tr>
+    <tr><td><code>DELETE</code></td><td>删除数据</td><td>删除一条记录</td></tr>
+  </table>
+
+  <p>状态码放在状态行里，让你一眼看懂结果：</p>
+  <table>
+    <tr><th>状态码</th><th>含义</th></tr>
+    <tr><td><span class="badge badge-green">2xx</span></td><td>成功了，如 <code>200 OK</code></td></tr>
+    <tr><td><span class="badge badge-amber">4xx</span></td><td>你这边请求有问题，如 <code>404</code> 找不到、<code>401</code> 未授权</td></tr>
+    <tr><td><span class="badge badge-red">5xx</span></td><td>服务器那边出错了，如 <code>500</code></td></tr>
+  </table>
+
+  <!-- 4 -->
+  <h2><span class="num">4.</span>实战：前端提交 JSON 到 Dify 工作流</h2>
+  <p>把上面的知识套到实际场景：前端把要提交的数据组织成 JSON，通过 <code>POST</code> 方法发到 <code>/v1/workflows/run</code> 接口，后端（Dify 工作流引擎）接收并执行工作流，再把结果以 JSON 返回。</p>
+
+  <div class="card">
+    <svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+      <rect x="40" y="90" width="180" height="56" rx="8" fill="var(--blue-fill)" stroke="var(--blue-stroke)"/>
+      <text x="130" y="112" text-anchor="middle" font-size="14" font-weight="600" fill="var(--blue-text)">前台 / 前端</text>
+      <text x="130" y="130" text-anchor="middle" font-size="12" fill="var(--blue-text)">提交数据</text>
+
+      <rect x="460" y="90" width="180" height="56" rx="8" fill="var(--coral-fill)" stroke="var(--coral-stroke)"/>
+      <text x="550" y="112" text-anchor="middle" font-size="14" font-weight="600" fill="var(--coral-text)">后端（Dify 工作流）</text>
+      <text x="550" y="130" text-anchor="middle" font-size="12" fill="var(--coral-text)">执行工作流</text>
+
+      <text x="340" y="72" text-anchor="middle" font-size="14" font-weight="600" fill="var(--text)">POST /v1/workflows/run</text>
+      <line x1="220" y1="108" x2="458" y2="108" stroke="var(--blue-stroke)" stroke-width="1.5" marker-end="url(#a2)"/>
+      <text x="340" y="156" text-anchor="middle" font-size="12" fill="var(--text-secondary)">Content-Type: application/json</text>
+
+      <line x1="458" y1="180" x2="220" y2="180" stroke="var(--text-secondary)" stroke-width="1.5" marker-end="url(#a2)"/>
+      <text x="340" y="198" text-anchor="middle" font-size="12" fill="var(--text-secondary)">响应结果（JSON 格式）</text>
+    </svg>
+  </div>
+
+  <h2><span class="num">4.1</span>请求内部结构（Headers + Body）</h2>
+  <div class="card">
+    <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="10" width="640" height="280" rx="20" fill="#F1EFE8" stroke="var(--border)"/>
+      <text x="44" y="40" font-size="14" font-weight="600" fill="var(--text)">HTTP 请求</text>
+      <text x="44" y="58" font-size="12" fill="var(--text-secondary)">POST /v1/workflows/run</text>
+
+      <rect x="50" y="76" width="270" height="180" rx="12" fill="var(--blue-fill)" stroke="var(--blue-stroke)"/>
+      <text x="70" y="102" font-size="14" font-weight="600" fill="var(--blue-text)">请求头 Headers</text>
+      <text x="70" y="132" font-size="12" fill="var(--blue-text)">Authorization:</text>
+      <text x="70" y="152" font-size="12" fill="var(--blue-text)">Bearer &lt;API-KEY&gt;</text>
+      <text x="70" y="182" font-size="12" fill="var(--blue-text)">Content-Type:</text>
+      <text x="70" y="202" font-size="12" fill="var(--blue-text)">application/json</text>
+
+      <rect x="340" y="76" width="270" height="180" rx="12" fill="var(--amber-fill)" stroke="var(--amber-stroke)"/>
+      <text x="360" y="102" font-size="14" font-weight="600" fill="var(--amber-text)">请求体 Body (JSON)</text>
+      <text x="360" y="132" font-size="12" fill="var(--amber-text)">inputs: { ... }</text>
+      <text x="360" y="158" font-size="12" fill="var(--amber-text)">response_mode:</text>
+      <text x="360" y="178" font-size="12" fill="var(--amber-text)">blocking / streaming</text>
+      <text x="360" y="204" font-size="12" fill="var(--amber-text)">user: "user-123"</text>
+    </svg>
+  </div>
+
+  <h2><span class="num">4.2</span>streaming 模式：SSE 事件流</h2>
+  <p>当 <code>response_mode</code> 设为 <code>streaming</code> 时，前后端之间维持一条 SSE 长连接，后端不是等工作流跑完才一次性返回，而是每到关键节点就推送一条事件：</p>
+  <ul>
+    <li><code>workflow_started</code> —— 工作流开始执行</li>
+    <li><code>node_started</code> / <code>node_finished</code> —— 每个节点开始和结束时各推一条，可以有多次</li>
+    <li><code>workflow_finished</code> —— 整个工作流跑完，携带最终结果</li>
+  </ul>
+
+  <div class="card">
+    <svg viewBox="0 0 680 400" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="a3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+      <rect x="240" y="20" width="200" height="56" rx="8" fill="var(--blue-fill)" stroke="var(--blue-stroke)"/>
+      <text x="340" y="42" text-anchor="middle" font-size="14" font-weight="600" fill="var(--blue-text)">前端</text>
+      <text x="340" y="60" text-anchor="middle" font-size="12" fill="var(--blue-text)">response_mode: streaming</text>
+
+      <line x1="340" y1="76" x2="340" y2="118" stroke="var(--text-secondary)" stroke-width="1.5" marker-end="url(#a3)"/>
+
+      <rect x="220" y="118" width="240" height="130" rx="12" fill="var(--coral-fill)" stroke="var(--coral-stroke)"/>
+      <text x="340" y="142" text-anchor="middle" font-size="14" font-weight="600" fill="var(--coral-text)">Dify 后端（SSE 长连接）</text>
+      <text x="340" y="170" text-anchor="middle" font-size="12" fill="var(--coral-text)">workflow_started</text>
+      <text x="340" y="190" text-anchor="middle" font-size="12" fill="var(--coral-text)">node_started / finished</text>
+      <text x="340" y="210" text-anchor="middle" font-size="12" fill="var(--coral-text)">workflow_finished</text>
+
+      <line x1="340" y1="248" x2="340" y2="318" stroke="var(--text-secondary)" stroke-width="1.5" marker-end="url(#a3)"/>
+      <text x="340" y="280" text-anchor="middle" font-size="12" fill="var(--text-secondary)">SSE 事件流（持续多次推送）</text>
+
+      <rect x="240" y="318" width="200" height="56" rx="8" fill="var(--blue-fill)" stroke="var(--blue-stroke)"/>
+      <text x="340" y="340" text-anchor="middle" font-size="14" font-weight="600" fill="var(--blue-text)">前端</text>
+      <text x="340" y="358" text-anchor="middle" font-size="12" fill="var(--blue-text)">实时接收并渲染</text>
+    </svg>
+  </div>
+
+  <div class="callout">
+    对比来看：<code>blocking</code> 模式简单——前端发出请求后一直等，直到后端把整个工作流跑完，一次性返回完整 JSON 结果；<code>streaming</code> 模式体验更好——前端可以像打字机一样边收边渲染，但实现上要多处理 SSE 事件流。
+  </div>
+
+  <footer>HTTP 协议说明文档 · 生成于 Claude</footer>
+
+</div>
+</body>
+</html>
